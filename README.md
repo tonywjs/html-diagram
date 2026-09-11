@@ -50,7 +50,7 @@ Codex에는 브라우저 도구가 없으므로 SKILL.md는 그 경우 `assets/s
 | `assets/static-check.py` | 브라우저 없는 환경용 정적 검사 |
 | `assets/export-static.py` | 배포용 정적 HTML 내보내기(편집기 제거, 헤드리스 Chrome) |
 | `assets/tests/` | 엔진 회귀 테스트(`run.sh`, Aside 브라우저 CLI 필요) |
-| `examples/` | `demo`(최소 구성), `poster`(기능 샘플러), `drug-pipeline`(밀도 높은 카드). `*-src.html`이 원본, `.html`이 실행본 |
+| `examples/` | `demo`(최소 구성), `poster`(기능 샘플러), `drug-pipeline`(밀도 높은 카드). `*-src.html`이 원본, `.html`이 실행본. `poster-static.html`은 포스터의 배포본(편집기 제거) |
 | `compare/` | 같은 브리프로 여섯 모델이 만든 포스터 비교 |
 
 ## 문서 규약 요약

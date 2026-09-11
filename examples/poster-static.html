@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ko"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>편집 가능한 도식 기능 샘플러</title>
+<style>
+/* ================= 문서 스타일 (자유 수정 영역) ================= */
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
+:root{
+  --blue:#2563eb; --blue-bg:#eaf1ff; --blue-line:#c9dcff; --indigo:#4f46e5;
+  --teal:#0e7490; --teal-bg:#e6f6fb; --teal-line:#b6e3ef;
+  --amber:#b45309; --amber-bg:#fff7ed; --amber-line:#f4d7ad;
+  --ink:#0f172a; --sub:#64748b; --line:#e6eaf0; --panel:#f6f8fc;
+  --font:'Pretendard','Apple SD Gothic Neo','Malgun Gothic','맑은 고딕',-apple-system,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#cfd6e0;font-family:var(--font);color:var(--ink);-webkit-font-smoothing:antialiased;padding:26px 16px;}
+.fig-stage{max-width:1248px;margin:0 auto;border-radius:18px;
+  background:linear-gradient(180deg,#ffffff 0%,#f5f8fc 100%);
+  box-shadow:0 18px 60px rgba(20,30,60,.20);padding:40px 24px 30px;}
+
+/* 헤더 (캔버스 밖 일반 HTML. 더블클릭 글자 수정만 가능) */
+.head-row{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;max-width:1200px;margin:0 auto 18px;}
+.kick{font-size:13px;font-weight:800;letter-spacing:.18em;color:var(--blue);}
+h1{font-size:36px;font-weight:800;letter-spacing:-.02em;margin-top:6px;line-height:1.2;}
+h1 .g{background:linear-gradient(90deg,var(--blue),var(--indigo));-webkit-background-clip:text;background-clip:text;color:transparent;}
+.lede{font-size:14px;color:var(--sub);margin-top:8px;line-height:1.5;max-width:660px;}
+.legend{display:flex;flex-direction:column;gap:6px;font-size:12.5px;color:var(--sub);white-space:nowrap;}
+.legend b{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:6px;vertical-align:1px;}
+
+/* ---- 섹션 제목 (투명 노드) ---- */
+.sec{display:flex;align-items:baseline;gap:10px;}
+.sec .t{font-size:20px;font-weight:800;}
+.sec .k{font-size:12px;font-weight:800;letter-spacing:.14em;color:#94a3b8;}
+.sec .ln{flex:1;height:1px;background:var(--line);align-self:center;}
+
+/* ---- 원형 노드 (투명 노드 안의 원) ---- */
+.orb{width:100%;height:100%;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#fff;}
+.orb svg{width:28px;height:28px;stroke:#fff;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;margin-bottom:4px;}
+.orb .hl{font-size:16px;font-weight:800;line-height:1.2;}
+.orb .hs{font-size:12px;font-weight:600;opacity:.88;margin-top:3px;}
+.orb.b{background:radial-gradient(circle at 38% 32%,#4f7cf0 0%,#2563eb 46%,#1e3aa8 100%);box-shadow:0 12px 28px rgba(37,99,235,.38);}
+.orb.t{background:radial-gradient(circle at 38% 32%,#38b6d6 0%,#0e7490 50%,#0a4f63 100%);box-shadow:0 12px 28px rgba(14,116,144,.36);}
+.orb.a{background:radial-gradient(circle at 38% 32%,#f0a04b 0%,#b45309 52%,#7a3606 100%);box-shadow:0 12px 28px rgba(180,83,9,.34);}
+
+/* ---- 카드류 (노드에 직접 적용) ---- */
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 6px 20px rgba(20,30,60,.06);overflow:hidden;}
+.card .ch{display:flex;align-items:center;gap:8px;padding:10px 14px;color:#fff;font-size:14px;font-weight:800;
+  background:linear-gradient(90deg,var(--blue),var(--indigo));}
+.card .ch svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto;}
+.card .cb{padding:10px 14px;font-size:13px;line-height:1.5;color:var(--sub);}
+.card .cb b{color:var(--ink);}
+.list{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 16px;box-shadow:0 6px 20px rgba(20,30,60,.06);}
+.list .lh{font-size:15px;font-weight:800;margin-bottom:6px;display:flex;align-items:center;gap:8px;}
+.list .lh svg{width:18px;height:18px;stroke:var(--teal);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;}
+.list ul{list-style:none;}
+.list li{font-size:13px;line-height:1.45;color:var(--sub);padding:5px 0 5px 14px;position:relative;}
+.list li+li{border-top:1px dashed #eef1f6;}
+.list li::before{content:"";position:absolute;left:0;top:11px;width:6px;height:6px;border-radius:50%;background:var(--teal);}
+.list li b{color:var(--ink);}
+.stub{background:#fff;border:1px solid #cbd5e1;border-radius:8px;font-size:12.5px;font-weight:700;color:#334155;display:flex;align-items:center;justify-content:center;}
+.cap{font-size:12.5px;color:var(--sub);line-height:1.45;}
+.pill{border-radius:999px;background:var(--teal-bg);border:1px solid var(--teal-line);color:var(--teal);font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+.tile{background:#fff;border:1px solid var(--line);border-radius:14px;display:flex;align-items:center;justify-content:center;}
+.tile svg{width:56px;height:56px;stroke:var(--indigo);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;}
+.grid4{background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px;display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.grid4 i{display:block;border-radius:8px;min-height:40px;}
+
+/* ---- 리치 텍스트 카드 ---- */
+.rich{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 18px;box-shadow:0 6px 20px rgba(20,30,60,.06);font-size:14px;line-height:1.5;}
+.rich h3{font-size:18px;font-weight:800;margin-bottom:6px;}
+.rich p{margin:0 0 8px;}
+.rich .cols{display:flex;gap:28px;margin:2px 0 8px;}
+.rich ul,.rich ol{padding-left:20px;font-size:13.5px;}
+.rich blockquote{border-left:3px solid var(--blue-line);padding-left:10px;color:var(--sub);font-size:13.5px;margin:4px 0 10px;}
+.rich table{border-collapse:collapse;width:100%;font-size:13px;margin:2px 0 10px;}
+.rich th,.rich td{border:1px solid #cbd5e1;padding:4px 8px;text-align:left;}
+.rich th{background:var(--panel);}
+.rich .al{font-size:13px;color:var(--sub);}
+.rich .sizes span{margin-right:10px;}
+
+/* ---- 단축키 표 ---- */
+.keys{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 16px;box-shadow:0 6px 20px rgba(20,30,60,.06);}
+.keys table{border-collapse:collapse;width:100%;font-size:13px;}
+.keys td{padding:5px 6px;border-top:1px dashed #eef1f6;line-height:1.35;color:var(--sub);}
+.keys tr:first-child td{border-top:none;}
+.keys td:first-child{width:44%;color:var(--ink);}
+.keys kbd{font-family:inherit;font-size:12px;font-weight:700;background:var(--panel);border:1px solid #d8dee8;border-bottom-width:2px;border-radius:5px;padding:1px 6px;color:var(--ink);white-space:nowrap;}
+
+/* ---- 흐름 노드 ---- */
+.flow{background:#fff;border:1px solid var(--line);border-radius:10px;font-size:13px;font-weight:700;color:var(--ink);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:6px 8px;line-height:1.3;}
+.flow.b{background:var(--blue-bg);border-color:var(--blue-line);color:var(--blue);}
+.flow.t{background:var(--teal-bg);border-color:var(--teal-line);color:var(--teal);}
+.flow.a{background:var(--amber-bg);border-color:var(--amber-line);color:var(--amber);}
+.flow small{display:block;font-size:12px;font-weight:600;color:var(--sub);margin-top:2px;}
+
+.foot{display:flex;justify-content:space-between;max-width:1200px;margin:16px auto 0;padding-top:12px;border-top:1px solid var(--line);font-size:12px;color:var(--sub);}
+</style>
+
+<style id="fig-static-css">/* fig-static: 배포본 최소 스타일. fig-editor.css의 규약 부분과 같게 유지한다 */
+.fig-scale{position:relative;overflow:visible}
+.fig-canvas{position:relative;transform-origin:0 0}
+.fig-node{position:absolute;box-sizing:border-box}
+.fig-node *{box-sizing:border-box}
+.fig-edge{display:none}
+.fig-edges{position:absolute;left:0;top:0;width:100%;height:100%;overflow:visible;pointer-events:none;z-index:5}
+.fig-elabel{position:absolute;z-index:6;font-size:12px;font-weight:700;padding:2px 8px;border-radius:12px;background:rgba(255,255,255,.94);box-shadow:0 1px 4px rgba(15,23,42,.14);white-space:nowrap;transform:translate(-50%,-50%);pointer-events:none}
+@keyframes figFlow{to{stroke-dashoffset:-28}}
+.fig-edges g.fig-flow .fe-main{stroke-dasharray:7 7 !important;animation:figFlow 1.05s linear infinite}
+</style></head>
+<body>
+<div class="fig-stage">
+
+  <div class="head-row">
+    <div>
+      <div class="kick">HTML-DIAGRAM · FEATURE SAMPLER</div>
+      <h1>편집 가능한 도식, <span class="g">기능 한눈에</span></h1>
+      <div class="lede">이 문서는 그 자체가 에디터입니다. 오른쪽 위 편집 버튼(⌘E)을 누르면 아래 모든 요소를 끌어 옮기고, 더블클릭해 고치고, 같은 파일에 저장할 수 있습니다.</div>
+    </div>
+    <div class="legend">
+      <span><b style="background:#2563eb"></b>주색: 구조·흐름</span>
+      <span><b style="background:#0e7490"></b>보조색: 저장·결과</span>
+      <span><b style="background:#b45309"></b>강조색: 편집·규칙</span>
+    </div>
+  </div>
+
+  <!-- ======== FIG:CONTENT START ======== -->
+  <div class="fig-canvas" data-size="1200x1484" style="margin: 0px auto; width: 1200px; height: 1484px;"><svg class="fig-edges" viewBox="0 0 1200 1484" width="1200" height="1484"><g opacity="1"><path class="fe-main" fill="none" d="M115,60 Q260,9.25 398.8837978507482,57.85932924776187" stroke="#b45309" stroke-width="2" stroke-linecap="butt" stroke-dasharray="6 4.8" stroke-opacity="1"></path><path class="fe-a1" fill="#b45309" d="M405,60 L394.8700401903017,61.698945041458835 L398.14050939511,52.35474731343526 Z"></path><path class="fe-a2" fill="#b45309" d=""></path></g><g opacity="1"><path class="fe-main" fill="none" d="M405,210 Q260,260.75 121.11620214925179,212.14067075223812" stroke="#2563eb" stroke-width="2" stroke-linecap="butt" stroke-opacity="1"></path><path class="fe-a1" fill="#2563eb" d="M115,210 L125.12995980969828,208.30105495854116 L121.85949060489003,217.64525268656473 Z"></path><path class="fe-a2" fill="#2563eb" d=""></path></g><g class="fig-flow" opacity="1"><path class="fe-main" fill="none" d="M480,135 Q550,135 613.52,135" stroke="#2563eb" stroke-width="2.4" stroke-linecap="butt" stroke-opacity="1"></path><path class="fe-a1" fill="#2563eb" d="M620,135 L611,139.95 L611,130.05 Z"></path><path class="fe-a2" fill="#2563eb" d=""></path></g><g opacity="1"><path class="fe-main" fill="none" d="M769.9622356471525,137.379753512608 Q794.9811178235763,138.17400374043098 813.523262840086,138.76264326476465" stroke="#0e7490" stroke-width="2" stroke-linecap="round" stroke-dasharray="0.1 4.4" stroke-opacity="1"></path><path class="fe-a1" fill="#0e7490" d="M820,138.96825396825398 L810.8474679905095,143.63019109945307 L811.1615954541738,133.73517599402894 Z"></path><path class="fe-a2" fill="#0e7490" d=""></path></g><g opacity="1"><path class="fe-main" fill="none" d="M730,377 Q899,377 1061.52,377" stroke="#2563eb" stroke-width="2" stroke-linecap="butt" stroke-opacity="1"></path><path class="fe-a1" fill="#2563eb" d="M1068,377 L1059,381.95 L1059,372.05 Z"></path><path class="fe-a2" fill="#2563eb" d=""></path></g><g opacity="1"><path class="fe-main" fill="none" d="M736.48,419 Q899,419 1061.52,419" stroke="#0e7490" stroke-width="2" stroke-linecap="butt" stroke-dasharray="6 4.8" stroke-opacity="1"></path><path class="fe-a1" fill="#0e7490" d="M1068,419 L1059,423.95 L1059,414.05 Z"></path><path class="fe-a2" fill="#0e7490" d="M730,419 L739,414.05 L739,423.95 Z"></path></g><g opacity="1"><path class="fe-main" fill="none" d="M730,461 Q899,461 1068,461" stroke="#b45309" stroke-width="3" stroke-linecap="round" stroke-dasharray="0.1 6.6000000000000005" stroke-opacity="1"></path><path class="fe-a1" fill="#b45309" d=""></path><path class="fe-a2" fill="#b45309" d=""></path></g><g opacity="1"><path class="fe-main" fill="none" d="M687,512 Q899,465.36 1104.671343855751,510.60769564826523" stroke="#2563eb" stroke-width="2" stroke-linecap="butt" stroke-opacity="1"></path><path class="fe-a1" fill="#2563eb" d="M1111,512 L1101.1466339754124,514.9006340661141 L1103.273765623896,505.2318538457337 Z"></path><path class="fe-a2" fill="#2563eb" d=""></path></g><g opacity="1"><path class="fe-main" fill="none" d="M1111,542 Q899,588.64 693.328656144249,543.3923043517348" stroke="#0e7490" stroke-width="2" stroke-linecap="butt" stroke-opacity="1"></path><path class="fe-a1" fill="#0e7490" d="M687,542 L696.8533660245877,539.0993659338859 L694.7262343761039,548.7681461542662 Z"></path><path class="fe-a2" fill="#0e7490" d=""></path></g><g opacity="0.35"><path class="fe-main" fill="none" d="M730,607 Q899,607 1061.52,607" stroke="#2563eb" stroke-width="2.5" stroke-linecap="butt" stroke-opacity="1"></path><path class="fe-a1" fill="#2563eb" d="M1068,607 L1059,611.95 L1059,602.05 Z"></path><path class="fe-a2" fill="#2563eb" d=""></path></g><g class="fig-flow" opacity="1"><path class="fe-main" fill="none" d="M730,649 Q899,649 1061.52,649" stroke="#2563eb" stroke-width="2.4" stroke-linecap="butt" stroke-opacity="1"></path><path class="fe-a1" fill="#2563eb" d="M1068,649 L1059,653.95 L1059,644.05 Z"></path><path class="fe-a2" fill="#2563eb" d=""></path></g><g opacity="1"><path class="fe-main" fill="none" d="M687,706 Q895.6,765.4 1104.5645882530291,740.7588647092529" stroke="#0e7490" stroke-width="2" stroke-linecap="butt" stroke-opacity="1"></path><path class="fe-a1" fill="#0e7490" d="M1111,740 L1102.6416164487753,745.9699182917872 L1101.4822398096392,736.138039233915 Z"></path><path class="fe-a2" fill="#0e7490" d=""></path></g><g opacity="1"><path class="fe-main" fill="none" d="M665.5,830 Q899,815 1126.0333294467453,800.4154178085603" stroke="#b45309" stroke-width="2" stroke-linecap="butt" stroke-opacity="1"></path><path class="fe-a1" fill="#b45309" d="M1132.5,800 L1123.8358461686853,805.5167869622921 L1123.201180072274,795.6371513948197 Z"></path><path class="fe-a2" fill="#b45309" d=""></path></g><g opacity="1"><path class="fe-main" fill="none" d="M730,857 Q885,857 1033.52,857" stroke="#2563eb" stroke-width="2" stroke-linecap="butt" stroke-opacity="1"></path><path class="fe-a1" fill="#2563eb" d="M1040,857 L1031,861.95 L1031,852.05 Z"></path><path class="fe-a2" fill="#2563eb" d=""></path></g><g opacity="1"><path class="fe-main" fill="none" d="M770,1310 Q790,1310 803.52,1310" stroke="#2563eb" stroke-width="2" stroke-linecap="butt" stroke-opacity="1"></path><path class="fe-a1" fill="#2563eb" d="M810,1310 L801,1314.95 L801,1305.05 Z"></path><path class="fe-a2" fill="#2563eb" d=""></path></g><g opacity="1"><path class="fe-main" fill="none" d="M930,1310 Q955,1310 973.52,1310" stroke="#0e7490" stroke-width="2" stroke-linecap="butt" stroke-opacity="1"></path><path class="fe-a1" fill="#0e7490" d="M980,1310 L971,1314.95 L971,1305.05 Z"></path><path class="fe-a2" fill="#0e7490" d=""></path></g><g opacity="1"><path class="fe-main" fill="none" d="M695,1337 Q717.5,1355 734.9399701148092,1368.9519760918474" stroke="#b45309" stroke-width="2" stroke-linecap="round" stroke-dasharray="0.1 4.4" stroke-opacity="1"></path><path class="fe-a1" fill="#b45309" d="M740,1373 L729.8799402296183,1371.2430451787532 L736.0644212004072,1363.5124439652673 Z"></path><path class="fe-a2" fill="#b45309" d=""></path></g><g opacity="1"><path class="fe-main" fill="none" d="M1090,1337 Q1090,1355 1090,1366.52" stroke="#0e7490" stroke-width="2" stroke-linecap="butt" stroke-dasharray="6 4.8" stroke-opacity="1"></path><path class="fe-a1" fill="#0e7490" d="M1090,1373 L1085.05,1364 L1094.95,1364 Z"></path><path class="fe-a2" fill="#0e7490" d=""></path></g></svg>
+
+    <!-- ① 핵심 원리 -->
+    <div class="fig-node sec" id="a-title" style="left: 0px; top: 0px; width: 1200px; background: transparent; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; height: 24px;">
+      <span class="t">① 핵심 원리: 문서가 곧 에디터</span><span class="k">PRINCIPLE</span><span class="ln"></span>
+    </div>
+    <div class="fig-node" id="a-view" style="left:40px;top:60px;width:150px;height:150px;background:transparent;border:none">
+      <div class="orb b"><svg viewBox="0 0 24 24"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6z"></path><circle cx="12" cy="12" r="3"></circle></svg><div class="hl">보기 모드</div><div class="hs">완전 정적 HTML</div></div>
+    </div>
+    <div class="fig-node" id="a-edit" style="left:330px;top:60px;width:150px;height:150px;background:transparent;border:none">
+      <div class="orb a"><svg viewBox="0 0 24 24"><path d="M4 20h4L18 10l-4-4L4 16v4z"></path><path d="M12 8l4 4"></path></svg><div class="hl">편집 모드</div><div class="hs">⌘E 토글</div></div>
+    </div>
+    <div class="fig-node" id="a-save" style="left:620px;top:60px;width:150px;height:150px;background:transparent;border:none">
+      <div class="orb t"><svg viewBox="0 0 24 24"><path d="M5 3h11l3 3v15H5z"></path><path d="M8 3v5h7V3"></path><rect x="8" y="13" width="8" height="6"></rect></svg><div class="hl">저장</div><div class="hs">⌘S 같은 파일</div></div>
+    </div>
+    <div class="fig-node list" id="a-list" style="left:820px;top:52px;width:380px;height:186px">
+      <div class="lh"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h10"></path></svg>저장하면 생기는 것</div>
+      <ul>
+        <li><b>같은 파일 덮어쓰기.</b> 파일 선택은 처음 한 번, 다음부터는 바로 씁니다</li>
+        <li><b>직전 버전 히스토리 30개.</b> 문서 안에 함께 저장되고 미리보기·복원이 됩니다</li>
+        <li><b>자동저장.</b> 편집 0.7초 뒤 브라우저에 보관, 다시 열면 복구를 묻습니다</li>
+        <li><b>폴백.</b> 덮어쓰기를 지원하지 않는 브라우저에서는 다운로드로 저장합니다</li>
+      </ul>
+    </div>
+    <div class="fig-node cap" id="a-cap" style="left: 40px; top: 262px; width: 740px; background: transparent; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; height: 36px;">
+      원형 노드는 화살표가 둘레에 정확히 닿습니다. 왕복 화살표는 앵커를 위(0.5,0)와 아래(0.5,1)로 나눠 겹치지 않게 했습니다. 노드를 끌어 보면 화살표가 따라옵니다.
+    </div>
+    <div class="fig-edge" id="ea-1" data-from="a-view" data-to="a-edit" data-style="dashed" data-color="#b45309" data-width="2" data-curve="-0.35" data-arrow="end" data-anchor-from="0.5,0" data-anchor-to="0.5,0" data-label="⌘E 편집 시작"></div>
+    <div class="fig-edge" id="ea-2" data-from="a-edit" data-to="a-view" data-color="#2563eb" data-width="2" data-curve="-0.35" data-arrow="end" data-anchor-from="0.5,1" data-anchor-to="0.5,1" data-label="완료 · 보기로 복귀"></div>
+    <div class="fig-edge" id="ea-3" data-from="a-edit" data-to="a-save" data-color="#2563eb" data-width="2.4" data-arrow="end" data-flow="on" data-label="⌘S · 변경 사항 기록"></div>
+    <div class="fig-edge" id="ea-4" data-from="a-save" data-to="a-list" data-color="#0e7490" data-width="2" data-style="dotted" data-arrow="end"></div>
+
+    <!-- ② 노드 종류 -->
+    <div class="fig-node sec" id="b-title" style="left: 0px; top: 300px; width: 580px; background: transparent; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; height: 24px;">
+      <span class="t">② 노드: 안쪽 HTML은 자유</span><span class="k">NODES</span><span class="ln"></span>
+    </div>
+    <div class="fig-node" id="b-panel" style="left:0px;top:345px;width:580px;height:545px;background:#f6f8fc;border:1px dashed #cfd8e6;border-radius:18px"></div>
+    <div class="fig-node card" id="b-card" style="left:24px;top:370px;width:250px;height:134px;padding:0">
+      <div class="ch"><svg viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5 9-5z"></path><path d="M3 13l9 5 9-5"></path><path d="M3 17l9 5 9-5"></path></svg>그라디언트 헤더 카드</div>
+      <div class="cb"><b>아이콘 + 제목 + 본문</b>이 한 노드입니다. 안쪽 구조는 flex, grid, 표 무엇이든 됩니다.</div>
+    </div>
+    <div class="fig-node" id="b-round" style="left:300px;top:372px;width:110px;height:110px;background:transparent;border:none">
+      <div class="orb t"><div class="hl">원형</div><div class="hs">radius 50%</div></div>
+    </div>
+    <div class="fig-node pill" id="b-pill" style="left:434px;top:372px;width:122px;height:42px">알약형 라벨</div>
+    <div class="fig-node stub" id="b-ghost" style="left:434px;top:430px;width:122px;height:52px;opacity:.55">투명도 55%</div>
+    <div class="fig-node" id="b-shadow" style="left:24px;top:526px;width:250px;height:98px;background:#fff;border:1px solid #e6eaf0;border-radius:16px;box-shadow:0 14px 30px rgba(20,30,60,.16);padding:13px 16px;font-size:14px;line-height:1.45">
+      <b>그림자 + 둥글기 16</b>
+      <div class="cap" style="margin-top:3px">속성 패널의 그림자·둥글기·투명도 조절 결과와 같은 값입니다.</div>
+    </div>
+    <div class="fig-node cap" id="b-trans" style="left: 300px; top: 526px; width: 256px; background: transparent; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; font-size: 13px; height: 57px;">
+      <b style="color:#0f172a">투명 노드.</b> 배경·테두리 없이 글자만 있는 노드입니다. 캡션, 주석, 섹션 제목에 씁니다. 편집 모드에서 이것도 끌 수 있습니다.
+    </div>
+    <div class="fig-node cap" id="b-cap" style="left: 24px; top: 644px; width: 250px; background: transparent; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; height: 54px;">
+      뒤 배경판 노드를 먼저, 앞 내용 노드를 나중에 DOM에 두면 z순서가 유지됩니다. 속성 패널의 맨앞·맨뒤로 바꿀 수 있습니다.
+    </div>
+    <div class="fig-node tile" id="b-tile" style="left:300px;top:644px;width:120px;height:120px">
+      <svg viewBox="0 0 24 24"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z"></path><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"></path></svg>
+    </div>
+    <div class="fig-node grid4" id="b-grid" style="left:440px;top:644px;width:116px;height:120px">
+      <i style="background:#2563eb"></i><i style="background:#4f46e5"></i><i style="background:#0e7490"></i><i style="background:#b45309"></i>
+    </div>
+    <div class="fig-node cap" id="b-cap2" style="left: 300px; top: 772px; width: 256px; background: transparent; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; height: 36px;">인라인 SVG 아이콘(stroke 1.7)과 안쪽 grid. 이모지는 쓰지 않습니다.</div>
+    <div class="fig-node rich" id="b-table" style="left:24px;top:772px;width:250px;height:100px;padding:10px 12px;font-size:13px">
+      <table style="margin:0"><tbody><tr><th>표 노드</th><th>값</th></tr><tr><td>셀 편집</td><td>더블클릭</td></tr><tr><td>열 너비</td><td>자동</td></tr></tbody></table>
+    </div>
+
+    <!-- ③ 화살표 종류 -->
+    <div class="fig-node sec" id="c-title" style="left: 620px; top: 300px; width: 580px; background: transparent; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; height: 24px;">
+      <span class="t">③ 화살표: 데이터 속성으로 모양 지정</span><span class="k">EDGES</span><span class="ln"></span>
+    </div>
+    <div class="fig-node" id="c-panel" style="left:620px;top:345px;width:580px;height:545px;background:#f6f8fc;border:1px dashed #cfd8e6;border-radius:18px"></div>
+    <div class="fig-node stub" id="c1a" style="left:644px;top:362px;width:86px;height:30px">A</div>
+    <div class="fig-node stub" id="c1b" style="left:1068px;top:362px;width:86px;height:30px">B</div>
+    <div class="fig-edge" id="ec-1" data-from="c1a" data-to="c1b" data-color="#2563eb" data-width="2" data-arrow="end" data-label="solid · arrow=end (기본)"></div>
+    <div class="fig-node stub" id="c2a" style="left:644px;top:404px;width:86px;height:30px">A</div>
+    <div class="fig-node stub" id="c2b" style="left:1068px;top:404px;width:86px;height:30px">B</div>
+    <div class="fig-edge" id="ec-2" data-from="c2a" data-to="c2b" data-style="dashed" data-color="#0e7490" data-width="2" data-arrow="both" data-label="dashed · arrow=both"></div>
+    <div class="fig-node stub" id="c3a" style="left:644px;top:446px;width:86px;height:30px">A</div>
+    <div class="fig-node stub" id="c3b" style="left:1068px;top:446px;width:86px;height:30px">B</div>
+    <div class="fig-edge" id="ec-3" data-from="c3a" data-to="c3b" data-style="dotted" data-color="#b45309" data-width="3" data-arrow="none" data-label="dotted · arrow=none · width 3"></div>
+    <div class="fig-node stub" id="c4a" style="left:644px;top:512px;width:86px;height:30px">A</div>
+    <div class="fig-node stub" id="c4b" style="left:1068px;top:512px;width:86px;height:30px">B</div>
+    <div class="fig-edge" id="ec-4" data-from="c4a" data-to="c4b" data-color="#2563eb" data-width="2" data-curve="-0.22" data-arrow="end" data-anchor-from="0.5,0" data-anchor-to="0.5,0" data-label="curve -0.22 · 위 앵커 0.5,0"></div>
+    <div class="fig-edge" id="ec-5" data-from="c4b" data-to="c4a" data-color="#0e7490" data-width="2" data-curve="-0.22" data-arrow="end" data-anchor-from="0.5,1" data-anchor-to="0.5,1" data-label="왕복 · 아래 앵커 0.5,1"></div>
+    <div class="fig-node stub" id="c5a" style="left:644px;top:592px;width:86px;height:30px">A</div>
+    <div class="fig-node stub" id="c5b" style="left:1068px;top:592px;width:86px;height:30px">B</div>
+    <div class="fig-edge" id="ec-6" data-from="c5a" data-to="c5b" data-color="#2563eb" data-width="2.5" data-arrow="end" data-opacity="0.35" data-label="opacity 0.35"></div>
+    <div class="fig-node stub" id="c6a" style="left:644px;top:634px;width:86px;height:30px">A</div>
+    <div class="fig-node stub" id="c6b" style="left:1068px;top:634px;width:86px;height:30px">B</div>
+    <div class="fig-edge" id="ec-7" data-from="c6a" data-to="c6b" data-color="#2563eb" data-width="2.4" data-arrow="end" data-flow="on" data-label="flow=on · 흐름 애니메이션"></div>
+    <div class="fig-node stub" id="c7a" style="left:644px;top:676px;width:86px;height:30px">A</div>
+    <div class="fig-node stub" id="c7b" style="left:1068px;top:740px;width:86px;height:30px">B</div>
+    <div class="fig-edge" id="ec-8" data-from="c7a" data-to="c7b" data-color="#0e7490" data-width="2" data-arrow="end" data-anchor-from="bottom" data-anchor-to="top" data-curve="0.2" data-label="anchor-from=bottom · anchor-to=top"></div>
+    <div class="fig-node stub" id="c8a" style="left:644px;top:800px;width:86px;height:30px">A</div>
+    <div class="fig-node stub" id="c8b" style="left:1068px;top:800px;width:86px;height:30px">B</div>
+    <div class="fig-edge" id="ec-9" data-from="c8a" data-to="c8b" data-color="#b45309" data-width="2" data-arrow="end" data-anchor-from="0.25,1" data-anchor-to="0.75,0" data-label="비율 앵커 0.25,1 에서 0.75,0 으로"></div>
+    <div class="fig-node stub" id="c9a" style="left:644px;top:842px;width:86px;height:30px">A</div>
+    <div class="fig-edge" id="ec-10" data-from="c9a" data-to="1040,857" data-color="#2563eb" data-width="2" data-arrow="end" data-label="좌표 끝점 to=x,y"></div>
+    <div class="fig-node cap" id="c-free" style="left: 1050px; top: 842px; width: 140px; background: transparent; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; height: 36px;">노드 없이 좌표에서 끝나는 자유 화살표</div>
+
+    <!-- ④ 텍스트 서식 -->
+    <div class="fig-node sec" id="d-title" style="left: 0px; top: 910px; width: 580px; background: transparent; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; height: 24px;">
+      <span class="t">④ 텍스트: 더블클릭하면 서식 툴바</span><span class="k">TEXT</span><span class="ln"></span>
+    </div>
+    <div class="fig-node rich" id="d-rich" style="left:0px;top:955px;width:580px;height:428px">
+      <h3>제목 스타일 h3 · 18px</h3>
+      <p>본문 14px입니다. <b>굵게</b>, <i>기울임</i>, <u>밑줄</u>, <s>취소선</s>, <span style="color:#2563eb;font-weight:700">글자색</span>, <span style="background:#fff3a3">배경 강조</span>까지 툴바가 만드는 마크업과 같습니다.</p>
+      <div class="cols">
+        <ul><li>불릿 목록 첫째</li><li>둘째 항목</li><li style="margin-left:14px">들여쓰기 항목</li></ul>
+        <ol><li>번호 목록 첫째</li><li>둘째 항목</li><li>셋째 항목</li></ol>
+      </div>
+      <blockquote>인용 단락. 단락 스타일에서 "인용"을 고르면 이렇게 됩니다.</blockquote>
+      <table>
+        <tbody><tr><th>항목</th><th>값</th><th>비고</th></tr>
+        <tr><td>표 삽입</td><td>2×2 기본</td><td>셀 안에서 바로 입력</td></tr>
+        <tr><td>크기 단계</td><td>A−, A+ 버튼</td><td>12부터 160까지</td></tr>
+      </tbody></table>
+      <div class="al" style="text-align:left">왼쪽 정렬 13px</div>
+      <div class="al" style="text-align:center">가운데 정렬 13px</div>
+      <div class="al" style="text-align:right">오른쪽 정렬 13px</div>
+      <p class="sizes" style="margin:8px 0 0"><span style="font-size:12px">12px</span><span style="font-size:14px">14px</span><span style="font-size:16px">16px</span><span style="font-size:20px;font-weight:700">20px</span><span style="font-family:Georgia,'Noto Serif KR',serif">세리프체</span><span style="font-family:ui-monospace,Menlo,monospace;font-size:13px">고정폭체</span></p>
+    </div>
+
+    <!-- ⑤ 편집 조작 -->
+    <div class="fig-node sec" id="e-title" style="left: 620px; top: 910px; width: 580px; background: transparent; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; height: 24px;">
+      <span class="t">⑤ 편집 조작: 단축키와 저장 흐름</span><span class="k">EDITING</span><span class="ln"></span>
+    </div>
+    <div class="fig-node keys" id="e-keys" style="left:620px;top:955px;width:580px;height:308px">
+      <table>
+        <tbody><tr><td><kbd>⌘E</kbd></td><td>편집 모드 켜기, 끄기</td></tr>
+        <tr><td><kbd>⌘S</kbd></td><td>같은 파일에 저장. 메뉴에서 다른 이름으로 저장</td></tr>
+        <tr><td><kbd>⌘Z</kbd> <kbd>⇧⌘Z</kbd></td><td>되돌리기, 다시 실행 (50단계)</td></tr>
+        <tr><td><kbd>⌘D</kbd> <kbd>⌥ 드래그</kbd></td><td>선택 복제, 끌면서 복제</td></tr>
+        <tr><td><kbd>⌘C</kbd> <kbd>⌘X</kbd> <kbd>⌘V</kbd></td><td>복사, 잘라내기, 붙여넣기. 다른 문서로도 이동</td></tr>
+        <tr><td><kbd>Delete</kbd></td><td>선택 삭제. 연결된 화살표도 함께 정리</td></tr>
+        <tr><td><kbd>방향키</kbd> <kbd>⇧ 방향키</kbd></td><td>1px, 10px 이동</td></tr>
+        <tr><td><kbd>더블클릭</kbd></td><td>글자 편집과 서식 툴바. 화살표 라벨도 같은 방식</td></tr>
+        <tr><td><kbd>⇧ 클릭</kbd></td><td>여러 요소 선택. 속성 패널이 한꺼번에 적용</td></tr>
+        <tr><td><kbd>Esc</kbd></td><td>선택 해제, 글자 편집 종료</td></tr>
+      </tbody></table>
+    </div>
+    <div class="fig-node flow b" id="e-f1" style="left:620px;top:1283px;width:150px;height:54px">드래그·수정<small>변경마다 commit</small></div>
+    <div class="fig-node flow a" id="e-f2" style="left:810px;top:1283px;width:120px;height:54px">⌘S<small>파일 선택 1회</small></div>
+    <div class="fig-node flow t" id="e-f3" style="left:980px;top:1283px;width:220px;height:54px">같은 파일 덮어쓰기<small>File System Access API</small></div>
+    <div class="fig-node flow" id="e-f4" style="left:620px;top:1373px;width:240px;height:50px">자동저장<small>브라우저 보관, 0.7초 뒤</small></div>
+    <div class="fig-node flow" id="e-f5" style="left:980px;top:1373px;width:220px;height:50px">히스토리 30개<small>문서 안에 함께 저장</small></div>
+    <div class="fig-edge" id="ee-1" data-from="e-f1" data-to="e-f2" data-color="#2563eb" data-width="2" data-arrow="end" data-label="변경"></div>
+    <div class="fig-edge" id="ee-2" data-from="e-f2" data-to="e-f3" data-color="#0e7490" data-width="2" data-arrow="end" data-label="권한 확인 후 쓰기"></div>
+    <div class="fig-edge" id="ee-3" data-from="e-f1" data-to="e-f4" data-style="dotted" data-color="#b45309" data-width="2" data-arrow="end" data-anchor-from="bottom" data-anchor-to="top" data-label="편집할 때마다"></div>
+    <div class="fig-edge" id="ee-4" data-from="e-f3" data-to="e-f5" data-style="dashed" data-color="#0e7490" data-width="2" data-arrow="end" data-anchor-from="bottom" data-anchor-to="top" data-label="직전 버전 보관"></div>
+
+    <div class="fig-node cap" id="e-foot" style="left: 0px; top: 1440px; width: 1200px; background: transparent; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; height: 18px;">
+      이 포스터는 html-diagram 스킬의 기능 검증용 예시입니다. 모든 요소가 편집 모드에서 이동·복제·삭제되며, 품질 스니펫 기준(글자 12px 이상, 격자 점유율)을 만족하도록 배치했습니다.
+    </div>
+  <div class="fig-elabel" style="left: 260px; top: 34.625px; color: rgb(180, 83, 9); opacity: 1;">⌘E 편집 시작</div><div class="fig-elabel" style="left: 260px; top: 235.375px; color: rgb(37, 99, 235); opacity: 1;">완료 · 보기로 복귀</div><div class="fig-elabel" style="left: 550px; top: 135px; color: rgb(37, 99, 235); opacity: 1;">⌘S · 변경 사항 기록</div><div class="fig-elabel" style="left: 899px; top: 377px; color: rgb(37, 99, 235); opacity: 1;">solid · arrow=end (기본)</div><div class="fig-elabel" style="left: 899px; top: 419px; color: rgb(14, 116, 144); opacity: 1;">dashed · arrow=both</div><div class="fig-elabel" style="left: 899px; top: 461px; color: rgb(180, 83, 9); opacity: 1;">dotted · arrow=none · width 3</div><div class="fig-elabel" style="left: 899px; top: 488.68px; color: rgb(37, 99, 235); opacity: 1;">curve -0.22 · 위 앵커 0.5,0</div><div class="fig-elabel" style="left: 899px; top: 565.32px; color: rgb(14, 116, 144); opacity: 1;">왕복 · 아래 앵커 0.5,1</div><div class="fig-elabel" style="left: 899px; top: 607px; color: rgb(37, 99, 235); opacity: 0.35;">opacity 0.35</div><div class="fig-elabel" style="left: 899px; top: 649px; color: rgb(37, 99, 235); opacity: 1;">flow=on · 흐름 애니메이션</div><div class="fig-elabel" style="left: 897.3px; top: 744.2px; color: rgb(14, 116, 144); opacity: 1;">anchor-from=bottom · anchor-to=top</div><div class="fig-elabel" style="left: 899px; top: 815px; color: rgb(180, 83, 9); opacity: 1;">비율 앵커 0.25,1 에서 0.75,0 으로</div><div class="fig-elabel" style="left: 885px; top: 857px; color: rgb(37, 99, 235); opacity: 1;">좌표 끝점 to=x,y</div><div class="fig-elabel" style="left: 790px; top: 1310px; color: rgb(37, 99, 235); opacity: 1;">변경</div><div class="fig-elabel" style="left: 955px; top: 1310px; color: rgb(14, 116, 144); opacity: 1;">권한 확인 후 쓰기</div><div class="fig-elabel" style="left: 717.5px; top: 1355px; color: rgb(180, 83, 9); opacity: 1;">편집할 때마다</div><div class="fig-elabel" style="left: 1090px; top: 1355px; color: rgb(14, 116, 144); opacity: 1;">직전 버전 보관</div></div>
+
+  <!-- 두 번째 캔버스 -->
+  <div class="fig-canvas" data-size="1200x150" style="margin: 24px auto 0px; width: 1200px; height: 150px;"><svg class="fig-edges" viewBox="0 0 1200 150" width="1200" height="150"><g opacity="1"><path class="fe-main" fill="none" d="M300,80 Q375,80 443.52,80" stroke="#2563eb" stroke-width="2" stroke-linecap="butt" stroke-opacity="1"></path><path class="fe-a1" fill="#2563eb" d="M450,80 L441,84.95 L441,75.05 Z"></path><path class="fe-a2" fill="#2563eb" d=""></path></g><g opacity="1"><path class="fe-main" fill="none" d="M750,80 Q825,80 893.52,80" stroke="#0e7490" stroke-width="2" stroke-linecap="butt" stroke-dasharray="6 4.8" stroke-opacity="1"></path><path class="fe-a1" fill="#0e7490" d="M900,80 L891,84.95 L891,75.05 Z"></path><path class="fe-a2" fill="#0e7490" d=""></path></g></svg>
+    <div class="fig-node sec" id="x-title" style="left: 0px; top: 0px; width: 1200px; background: transparent; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; height: 24px;">
+      <span class="t">⑥ 한 문서에 여러 캔버스</span><span class="k">MULTI-CANVAS</span><span class="ln"></span>
+    </div>
+    <div class="fig-node flow b" id="x-1" style="left:0px;top:52px;width:300px;height:56px">두 번째 캔버스<small>data-size 1200x150</small></div>
+    <div class="fig-node flow" id="x-2" style="left:450px;top:52px;width:300px;height:56px">캔버스마다 독립 좌표계<small>축소 배율도 따로 계산</small></div>
+    <div class="fig-node flow t" id="x-3" style="left:900px;top:52px;width:300px;height:56px">품질 스니펫도 캔버스별 보고<small>fill, minFont</small></div>
+    <div class="fig-edge" id="ex-1" data-from="x-1" data-to="x-2" data-color="#2563eb" data-width="2" data-arrow="end" data-label="id는 문서 전체에서 유일"></div>
+    <div class="fig-edge" id="ex-2" data-from="x-2" data-to="x-3" data-color="#0e7490" data-width="2" data-arrow="end" data-style="dashed" data-label="캔버스 사이 화살표는 없음"></div>
+    <div class="fig-node cap" id="x-cap" style="left: 0px; top: 124px; width: 1200px; background: transparent; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; height: 18px;">붙여넣기는 선택된 요소가 있는 캔버스로, 선택이 없으면 화면에 가장 많이 보이는 캔버스로 들어갑니다.</div>
+  <div class="fig-elabel" style="left: 375px; top: 80px; color: rgb(37, 99, 235); opacity: 1;">id는 문서 전체에서 유일</div><div class="fig-elabel" style="left: 825px; top: 80px; color: rgb(14, 116, 144); opacity: 1;">캔버스 사이 화살표는 없음</div></div>
+  <!-- ======== FIG:CONTENT END ======== -->
+
+  <div class="foot">
+    <span>html-diagram 스킬 · 기능 샘플러</span>
+    <span>보기 모드는 정적 HTML, 편집은 문서 안 엔진이 처리</span>
+  </div>
+</div>
+
+
+
+<script id="fig-static-js">/* fig-static: 창 폭에 맞춰 캔버스를 축소하는 뷰어. 편집 기능은 없다 */
+(function(){
+function fit(){Array.prototype.forEach.call(document.querySelectorAll(".fig-canvas"),function(cv){var m=(cv.getAttribute("data-size")||"").match(/^\s*(\d+)\s*[x\u00d7]\s*(\d+)/i);var w=m?+m[1]:cv.offsetWidth,h=m?+m[2]:cv.offsetHeight;cv.style.width=w+"px";cv.style.height=h+"px";var wrap=cv.parentElement;if(!wrap.classList.contains("fig-scale")){var d=document.createElement("div");d.className="fig-scale";cv.parentNode.insertBefore(d,cv);d.appendChild(cv);wrap=d;}var sc=Math.min(1,(wrap.clientWidth||w)/w);cv.style.transform=sc<1?"scale("+sc+")":"";wrap.style.height=(h*sc)+"px";});}
+window.addEventListener("resize",fit);if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",fit);else fit();
+var noop=function(){};
+/* html-deck 런타임 등이 부르는 편집 API는 빈 함수로 둔다 */
+window.FigEditor=window.FigEditor||{static:true,fitAll:fit,renderAll:noop,setEdit:noop,isEditing:function(){return false},selection:function(){return []},select:noop,clearSelection:noop,commit:noop,toast:noop,save:noop,serialize:function(){return "<!DOCTYPE html>\n"+document.documentElement.outerHTML},clean:function(){return document.body.innerHTML}};
+})();
+</script></body></html>
