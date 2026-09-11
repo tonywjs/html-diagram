@@ -10,6 +10,7 @@
 - **저장**: 같은 파일 덮어쓰기(File System Access API, 크로미움), 직전 버전 히스토리 30개를 문서 안에 보관, 편집 0.7초 뒤 자동저장과 복구 배너. 미지원 브라우저는 다운로드로 저장.
 - **텍스트**: 더블클릭하면 리치 서식 툴바(단락 스타일·글씨체·크기 단계·굵게/기울임/밑줄/취소선·글자색/배경·정렬·목록·들여쓰기·표).
 - **화살표**: 노드를 옮기면 자동 추종. 실선/파선/점선, 화살촉 end/both/none, 곡률, 투명도, 흐름 애니메이션, 측면·비율 앵커, 좌표 끝점, 라벨.
+- **배포용 저장**: 최종본이 나오면 메뉴의 "배포용으로 저장"으로 편집기를 걷어낸 정적 HTML을 따로 만듭니다. 화살표와 라벨이 문서에 구워져 엔진 없이도 그대로 보이고, 창 폭에 맞춘 축소만 남습니다. 명령줄에서는 `python3 assets/export-static.py 산출.html 배포.html`(헤드리스 Chrome 필요).
 
 ## 설치
 
@@ -46,6 +47,8 @@ Codex에는 브라우저 도구가 없으므로 SKILL.md는 그 경우 `assets/s
 | `assets/template.html` | 산출물의 출발점. 복사한 뒤 `<title>`, 첫 `<style>`, `FIG:CONTENT` 영역만 작성 |
 | `assets/template-skeleton.html`, `assets/build-template.py` | 엔진을 인라인해 템플릿과 예시를 조립 |
 | `assets/quality-check.js` | 품질 검사(글자 하한 12px, 격자 점유율 75%) |
+| `assets/static-check.py` | 브라우저 없는 환경용 정적 검사 |
+| `assets/export-static.py` | 배포용 정적 HTML 내보내기(편집기 제거, 헤드리스 Chrome) |
 | `assets/tests/` | 엔진 회귀 테스트(`run.sh`, Aside 브라우저 CLI 필요) |
 | `examples/` | `demo`(최소 구성), `poster`(기능 샘플러), `drug-pipeline`(밀도 높은 카드). `*-src.html`이 원본, `.html`이 실행본 |
 | `compare/` | 같은 브리프로 여섯 모델이 만든 포스터 비교 |

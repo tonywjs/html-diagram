@@ -14,8 +14,11 @@ js = (here / 'fig-editor.js').read_text(encoding='utf-8')
 out = {'file': str(f), 'errors': [], 'warnings': []}
 E, W = out['errors'].append, out['warnings'].append
 
-if css not in t: E('엔진 CSS 블록이 fig-editor.css와 다름 (엔진은 수정·요약 금지)')
-if js not in t: E('엔진 JS 블록이 fig-editor.js와 다름 (엔진은 수정·요약 금지)')
+out['static_export']='id="fig-static-css"' in t and 'id="fig-static-js"' in t   # 배포본(편집기 제거)
+if out['static_export']: W('배포본(편집기 제거)이라 엔진 블록 검사는 생략')
+else:
+    if css not in t: E('엔진 CSS 블록이 fig-editor.css와 다름 (엔진은 수정·요약 금지)')
+    if js not in t: E('엔진 JS 블록이 fig-editor.js와 다름 (엔진은 수정·요약 금지)')
 c = t.replace(css, '').replace(js, '')           # 문서 부분만 검사
 
 m = re.search(r'<title>(.*?)</title>', c, re.S)
