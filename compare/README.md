@@ -76,9 +76,7 @@ Codex 실행 시 주의: 백그라운드에서 돌리면 stdin을 닫아야 하�
 
 기준본. 섹션 6개, 화살표 속성을 행 단위 견본으로 나열. 라벨 충돌을 스크린샷으로 잡아 두 차례 좌표를 조정했다.
 
-<img src="shots-jpg/fable51-0.jpg" width="900">
-<img src="shots-jpg/fable51-850.jpg" width="900">
-<img src="shots-jpg/fable51-1700.jpg" width="900">
+<img src="shots-jpg/fable51-full.jpg" width="900">
 
 ### Claude Opus 5
 
@@ -86,9 +84,7 @@ Codex 실행 시 주의: 백그라운드에서 돌리면 stdin을 닫아야 하�
 
 속성 하나당 타일 한 장에 포트 두 개로 보여 주는 구성이 가장 읽기 쉽다. 앵커 섹션의 허브 도식이 좋다. 다만 세 캔버스 모두 전폭 배경판을 깔아 격자 점유율 100%를 만든 점은 지표를 만족시킨 것이지 밀도가 높은 것은 아니다.
 
-<img src="shots-jpg/opus5-0.jpg" width="900">
-<img src="shots-jpg/opus5-850.jpg" width="900">
-<img src="shots-jpg/opus5-1700.jpg" width="900">
+<img src="shots-jpg/opus5-full.jpg" width="900">
 
 ### Claude Sonnet 5
 
@@ -96,11 +92,7 @@ Codex 실행 시 주의: 백그라운드에서 돌리면 stdin을 닫아야 하�
 
 캔버스 4개, 노드 97개로 가장 방대하다. 속성마다 부채꼴 미니 도식으로 값 차이를 나란히 보여 주고, 곡률 부호 규칙을 문장으로 설명했다(이 과정에서 SKILL.md의 오기를 발견). 비율 앵커 시연의 설명 캡션이 화살표 라벨과 한 곳 겹친다.
 
-<img src="shots-jpg/sonnet5-0.jpg" width="900">
-<img src="shots-jpg/sonnet5-850.jpg" width="900">
-<img src="shots-jpg/sonnet5-1700.jpg" width="900">
-<img src="shots-jpg/sonnet5-2550.jpg" width="900">
-<img src="shots-jpg/sonnet5-3400.jpg" width="900">
+<img src="shots-jpg/sonnet5-full.jpg" width="900">
 
 ### GPT-5.6 luna
 
@@ -108,9 +100,7 @@ Codex 실행 시 주의: 백그라운드에서 돌리면 stdin을 닫아야 하�
 
 짙은 남색 헤더 밴드와 절제된 팔레트로 완성도가 높다. 섹션 02에서 선 표정·앵커·좌표 끝점을 세 열로 나눠 각각 실제 화살표로 보여 주며, 왕복 화살표를 다른 앵커와 같은 곡률로 정확히 분리했다. 두꺼운 선 위에 라벨이 얹혀 살짝 답답한 곳이 한 군데 있다.
 
-<img src="shots-jpg/gpt56-luna-0.jpg" width="900">
-<img src="shots-jpg/gpt56-luna-850.jpg" width="900">
-<img src="shots-jpg/gpt56-luna-1700.jpg" width="900">
+<img src="shots-jpg/gpt56-luna-full.jpg" width="900">
 
 ### GPT-5.6 terra
 
@@ -118,9 +108,7 @@ Codex 실행 시 주의: 백그라운드에서 돌리면 stdin을 닫아야 하�
 
 가장 성글다(노드 21). 배경판 한 장으로 점유율 100%. 카드 사이 짧은 화살표의 라벨이 인접 카드에 잘려 보이는 곳이 여러 군데다(선택 후 드래그, ⌘C ⌘V ⌘D, 변경 내용 직렬화).
 
-<img src="shots-jpg/gpt56-terra-0.jpg" width="900">
-<img src="shots-jpg/gpt56-terra-850.jpg" width="900">
-<img src="shots-jpg/gpt56-terra-1700.jpg" width="900">
+<img src="shots-jpg/gpt56-terra-full.jpg" width="900">
 
 ### GPT-5.6 sol
 
@@ -128,9 +116,7 @@ Codex 실행 시 주의: 백그라운드에서 돌리면 stdin을 닫아야 하�
 
 짙은 청록 편집 디자인 톤이 독자적이고 라벨 배치가 깔끔하다. 노드가 1인칭으로 자기를 설명하는 구성. 인라인 SVG 아이콘은 쓰지 않았다. 왕복 화살표의 곡률 규칙을 정확히 적었다.
 
-<img src="shots-jpg/gpt56-sol-0.jpg" width="900">
-<img src="shots-jpg/gpt56-sol-850.jpg" width="900">
-<img src="shots-jpg/gpt56-sol-1700.jpg" width="900">
+<img src="shots-jpg/gpt56-sol-full.jpg" width="900">
 
 ### GPT-5.6 astra
 
@@ -138,6 +124,4 @@ Codex 실행 시 주의: 백그라운드에서 돌리면 stdin을 닫아야 하�
 
 사용자가 Codex CLI로 xhigh에서 직접 실행. 캔버스 폭 1280을 택했고 속성마다 카드 안 미니 도식으로 보여 준다. 왕복 화살표를 서로 다른 비율 앵커와 같은 곡률로 정확히 분리했고, 곡률·앵커·좌표 끝점 카드가 특히 명확하다. 반투명 카드 뒤의 설명 글자 일부가 카드에 가려진다.
 
-<img src="shots-jpg/gpt56-astra-0.jpg" width="900">
-<img src="shots-jpg/gpt56-astra-850.jpg" width="900">
-<img src="shots-jpg/gpt56-astra-1700.jpg" width="900">
+<img src="shots-jpg/gpt56-astra-full.jpg" width="900">

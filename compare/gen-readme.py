@@ -28,6 +28,7 @@ for k in order:
                f"{ok(tf['table'] > 0)} | {ok(tf['list'] > 0)} | {ok(tf['blockquote'] > 0)} | {ok(tf['svg_icons'] > 0)} | {ok(tf['round_nodes'] > 0)} |")
     jpgs = ['shots-jpg/' + pathlib.Path(p).stem + '.jpg' for p in v.get('shots_local', []) if (here / 'shots-jpg' / (pathlib.Path(p).stem + '.jpg')).exists()]
     if jpgs: gal.append((k, jpgs[0]))
+    if (here / 'shots-jpg' / f'{k}-full.jpg').exists(): jpgs = [f'shots-jpg/{k}-full.jpg']   # 한 장으로 이어 붙인 전체 스크린샷
     links = f"[poster.html]({k}/poster.html)" + (f" · [report.md]({k}/report.md)" if (here / k / 'report.md').exists() else '')
     sections.append(f"### {names[k]}\n\n{links}\n\n{NOTES.get(k, '')}\n\n" + '\n'.join(f'<img src="{j}" width="900">' for j in jpgs) + '\n')
 
