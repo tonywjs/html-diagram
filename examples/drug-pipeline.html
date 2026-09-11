@@ -1790,9 +1790,36 @@ function pushHistoryIfChanged(){
   }
 }
 async function writeSerialized(handle){ var w=await handle.createWritable(); await w.write(serialize()); await w.close(); }
+/* 클로드 아티팩트 안에서 열린 경우: 페이지가 자기 새 버전을 발행하는 런타임(claude.use('artifact'))이 있으면 파일 대신 그쪽으로 저장한다.
+   일반 브라우저에는 window.claude가 없으므로 즉시 null. 결과는 한 번만 확인해 둔다 */
+var artifactNs;
+function artifactApi(){
+  if(artifactNs!==undefined) return Promise.resolve(artifactNs);
+  if(!(window.claude&&typeof window.claude.use==='function')){ artifactNs=null; return Promise.resolve(null); }
+  return Promise.resolve().then(function(){ return window.claude.use('artifact'); })
+    .then(function(ns){ artifactNs=(ns&&typeof ns.publish==='function')?ns:null; return artifactNs; })
+    .catch(function(){ artifactNs=null; return null; });
+}
 async function saveToFile(forceNew){
   finishLabelEdit(); if(texting) stopTextEdit();
   /* 편집 모드를 껐다 켜지 않는다(선택·도크 유지). serialize()가 편집 흔적을 알아서 걷어낸다 */
+  var art=forceNew?null:await artifactApi();
+  if(art){
+    toast('아티팩트에 저장 중…');
+    try{
+      pushHistoryIfChanged();
+      await art.publish(serialize());          /* 새 버전 발행. 열어 둔 모든 화면이 이 버전으로 다시 열린다 */
+      lastSavedHtml=snapshotForHistory();
+      try{ localStorage.removeItem(autosaveKey()); }catch(e){}
+      toast('아티팩트에 새 버전으로 저장했습니다');
+    }catch(err){
+      var code=String((err&&(err.code||err.name))||'');
+      if(/not_writer|not_granted/i.test(code)) toast('이 아티팩트에 편집 권한이 없어 저장할 수 없습니다');
+      else if(/conflict/i.test(code)) toast('다른 사람이 먼저 저장해 최신 버전으로 다시 열립니다');
+      else toast('아티팩트 저장 실패'+(code?' ('+code+')':''));
+    }
+    return;
+  }
   if(!window.showSaveFilePicker){
     pushHistoryIfChanged(); downloadHtml(serialize()); lastSavedHtml=snapshotForHistory();
     toast('다운로드로 저장했습니다 (이 브라우저는 같은 파일 덮어쓰기 미지원)'); return;
