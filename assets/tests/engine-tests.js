@@ -62,4 +62,8 @@ if(ex){
 await openTab(BASE+'demo-built.html'); await page.reload(); await sleep(800);
 const dl=await page.evaluate(async()=>{ window.showSaveFilePicker=undefined; let blob=null; URL.createObjectURL=b=>{ blob=b; return 'blob:stub'; }; HTMLAnchorElement.prototype.click=function(){}; const btn=document.getElementById('figExportM'); if(!btn) return {btn:false}; btn.click(); await new Promise(r=>setTimeout(r,400)); const txt=blob?await blob.text():''; return {btn:true,len:txt.length,clean:!txt.includes('fig-editor.js: 편집 가능한')&&txt.includes('class="fig-edges"')}; });
 ok('T15_export_menu_downloads_static', dl.btn&&dl.clean&&dl.len>1000, JSON.stringify(dl));
+// ---- T16: 배포본 내보내기 때 높이 미지정 노드의 실제 높이를 인라인으로 굳힌다 ----
+await openTab(BASE+'test-edges.html'); await page.reload(); await sleep(700);
+const fz=await page.evaluate(()=>{ const h=FigEditor.exportStatic(); const live=document.getElementById('f'); const m=h.match(/id="f"[^>]*style="([^"]*)"/); return {liveH:live.offsetHeight, hadInline:!!live.style.height, style:m?m[1]:null}; });
+ok('T16_export_freezes_auto_height', !fz.hadInline&&fz.style&&new RegExp('height:\\s*'+fz.liveH+'px').test(fz.style), JSON.stringify(fz));
 const passed=Object.values(R).filter(r=>r.pass).length; console.log('RESULT', passed+'/'+Object.keys(R).length, JSON.stringify(R,null,1));

@@ -50,7 +50,7 @@ python3 -m http.server 8765 --bind 127.0.0.1 --directory <산출 폴더>
 | 항목 | 규칙 |
 |---|---|
 | `.fig-canvas` | `data-size="WxH"` 필수. 고정 픽셀 좌표계(표시 축소는 엔진이 처리). 한 문서에 여러 캔버스 가능, 캔버스 사이 화살표는 불가 |
-| `.fig-node` | `id` 필수(전 문서 유일), 인라인 style로 `left/top/width` 필수(`height`는 선택). 내부 HTML 자유 |
+| `.fig-node` | `id` 필수(전 문서 유일), 인라인 style로 `left/top/width` 필수. `height`는 선택이지만 **화살표가 붙는 노드는 지정한다**(글꼴 환경이 달라도 끝점이 같은 자리에 오도록). 배포본 내보내기 때 미지정 높이는 그 시점 값으로 굳는다. 내부 HTML 자유 |
 | 투명 노드 | 라벨·캡션·섹션 제목도 노드로: `background:transparent;border:none` |
 | `.fig-edge` | 빈 div. `data-from`/`data-to` = **노드 id 또는 "x,y"**. 없는 id를 가리키면 표시되지 않고 콘솔 경고가 난다. 옵션: `data-style`(solid\|dashed\|dotted), `data-width`, `data-color`(hex, rgb, CSS 변수 모두 가능), `data-curve`(-1~1, 양수는 진행 방향 기준 오른쪽으로 휨. 가로 화살표면 아래), `data-arrow`(end\|both\|none), `data-label`(곡선 중앙에 놓임), `data-opacity`(0~1), `data-anchor-from/to`(auto\|top\|bottom\|left\|right\|**"fx,fy" 0~1 비율 고정점**), `data-flow="on"`(움직이는 점선 흐름 애니메이션) |
 | 양방향 화살표 | 같은 두 노드 사이에 왕복 화살표를 둘 땐 반드시 **앵커를 다르게** 지정한다(auto 둘이면 같은 점에 겹침). 곡률은 진행 방향 기준이므로 왕복 두 화살표에 **같은 부호**를 주면 서로 반대쪽으로 휜다. 예: 전송 `data-anchor-to="0.3,1"` / 배포 `data-anchor-from="0.7,1"` + 같은 곡률 값 |

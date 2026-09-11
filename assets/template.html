@@ -1626,6 +1626,9 @@ function exportStatic(){
   renderAll();
   var clone=document.documentElement.cloneNode(true);
   var head=clone.querySelector('head'), b=clone.querySelector('body');
+  /* 높이를 지정하지 않은 노드는 지금 그려진 높이를 인라인으로 굳힌다. 구워진 화살표 좌표와 박스가 글꼴 환경에 관계없이 맞도록 */
+  var liveNodes=$$('.fig-node'), cloneNodes=Array.prototype.slice.call(clone.querySelectorAll('.fig-node'));
+  liveNodes.forEach(function(n,i){ var c=cloneNodes[i]; if(c&&!n.style.height) c.style.height=n.offsetHeight+'px'; });
   Array.prototype.slice.call(clone.querySelectorAll('#fig-editor-css,#fig-static-css,#fig-static-js')).forEach(function(el){ el.remove(); });
   Array.prototype.slice.call(clone.querySelectorAll('script')).forEach(function(s){
     /* 엔진과 히스토리만 제거한다. 문서(또는 덱 런타임)의 다른 스크립트는 남긴다 */
