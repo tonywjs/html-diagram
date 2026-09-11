@@ -15,7 +15,7 @@ description: Use when 도식·다이어그램·인포그래픽·구조도·개�
 4. 브라우저에서 검증한다: ① 콘솔 오류·경고 0 ② 품질 스니펫 `pass:true` ③ 편집 모드에서 노드를 끌면 화살표가 따라옴.
 5. 검증 통과 전에는 완성으로 선언하지 않는다.
 
-**검증 방법.** Aside 브라우저는 file:// 을 열지 못하므로 산출 폴더를 로컬 HTTP로 띄운 뒤 `http://127.0.0.1:8765/파일.html`로 연다(포트가 사용 중이면 다른 포트). 스니펫은 Aside repl의 `page.evaluate`, 내장 Browser의 `javascript_tool`, 또는 콘솔에서 실행한다. 콘솔 오류·경고는 Aside repl이 캡처하지 못하므로 내장 Browser 패널의 `read_console_messages`로 확인한다(폴백 사유를 한 줄로 알릴 것). 드래그 검증은 `FigEditor.setEdit(true)` 후 노드 중앙을 마우스로 끌어 연결된 `.fig-edge` 요소의 `_geom.p0/p1`이 바뀌는지 보고 `FigEditor.setEdit(false)`로 돌아온다. 끝점을 못 찾은 엣지는 `_warned`가 true다.
+**검증 방법.** Aside 브라우저는 file:// 을 열지 못하므로 산출 폴더를 로컬 HTTP로 띄운 뒤 `http://127.0.0.1:8765/파일.html`로 연다(포트가 사용 중이면 다른 포트). 스니펫은 Aside repl의 `page.evaluate`, 내장 Browser의 `javascript_tool`, 또는 콘솔에서 실행한다. 콘솔 오류·경고는 Aside repl이 캡처하지 못하므로 내장 Browser 패널의 `read_console_messages`로 확인한다(폴백 사유를 한 줄로 알릴 것). 드래그 검증은 `FigEditor.setEdit(true)` 후 노드 중앙을 마우스로 끌어 연결된 `.fig-edge` 요소의 `_geom.p0/p1`이 바뀌는지 보고 `FigEditor.setEdit(false)`로 돌아온다. 끝점을 못 찾은 엣지는 `_warned`가 true다. 브라우저 도구가 없는 환경(Codex CLI 등)에서는 `python3 <스킬 폴더>/assets/static-check.py 산출.html`로 정적 검사까지만 하고, 브라우저 검증은 수행하지 못했다고 보고한다.
 
 ```bash
 python3 -m http.server 8765 --bind 127.0.0.1 --directory <산출 폴더>
