@@ -49,7 +49,7 @@ Claude Code는 `SKILL.md`의 description을 보고 도식·인포그래픽 요�
 
 ## 모델 비교
 
-[compare/index.html](compare/index.html)은 같은 브리프로 Claude Fable 5.1, Opus 5, Sonnet 5, GPT-5.6 luna·terra·sol이 만든 기능 샘플러 포스터를 같은 하네스로 검사한 결과입니다. 스크린샷이 내장돼 있어 내려받아 열면 됩니다. 조건과 절차는 [compare/README.md](compare/README.md)에 있습니다.
+[compare/index.html](compare/index.html)은 같은 브리프로 Claude Fable 5.1, Opus 5, Sonnet 5, GPT-5.6 luna·terra·sol·astra가 만든 기능 샘플러 포스터를 같은 하네스로 검사한 결과입니다. 스크린샷이 내장돼 있어 내려받아 열면 됩니다. 조건과 절차는 [compare/README.md](compare/README.md)에 있습니다.
 
 ## 라이선스
 

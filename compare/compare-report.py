@@ -44,7 +44,7 @@ NOTES={
  'gpt56-luna':'짙은 남색 헤더 밴드와 절제된 팔레트로 완성도가 높다. 섹션 02에서 선 표정·앵커·좌표 끝점을 세 열로 나눠 각각 실제 화살표로 보여 주며, 왕복 화살표를 다른 앵커와 같은 곡률로 정확히 분리했다. 두꺼운 선 위에 라벨이 얹혀 살짝 답답한 곳이 한 군데 있다.',
  'gpt56-terra':'가장 성글다(노드 21). 배경판 한 장으로 점유율 100%. 카드 사이 짧은 화살표의 라벨이 인접 카드에 잘려 보이는 곳이 여러 군데다(선택 후 드래그, ⌘C ⌘V ⌘D, 변경 내용 직렬화).',
  'gpt56-sol':'짙은 청록 편집 디자인 톤이 독자적이고 라벨 배치가 깔끔하다. 노드가 1인칭으로 자기를 설명하는 구성. 인라인 SVG 아이콘은 쓰지 않았다. 왕복 화살표의 곡률 규칙을 정확히 적었다.',
- 'gpt56-astra':'사용자가 별도 실행 예정.'}
+ 'gpt56-astra':'사용자가 Codex CLI로 xhigh에서 직접 실행. 캔버스 폭 1280을 택했고 속성마다 카드 안 미니 도식으로 보여 준다. 왕복 화살표를 서로 다른 비율 앵커와 같은 곡률로 정확히 분리했고, 곡률·앵커·좌표 끝점 카드가 특히 명확하다. 반투명 카드 뒤의 설명 글자 일부가 카드에 가려진다.'}
 notes_html='<section><h2>정성 메모</h2><ul>'+''.join(f'<li><b>{names[k]}</b>: {html.escape(NOTES[k])}</li>' for k in order if NOTES.get(k))+'</ul><p class="mute">격자 점유율은 노드나 화살표가 지나는 40px 칸의 비율이라, 전폭 배경판 노드 하나로도 100%가 된다. 점유율 100%는 밀도가 아니라 배경판 사용을 뜻할 수 있다.</p></section>'
 page=f'''<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><title>html-diagram 모델 비교</title>
 <style>body{{font-family:Pretendard,'Apple SD Gothic Neo',sans-serif;margin:24px;color:#0f172a;background:#f3f5f9}}

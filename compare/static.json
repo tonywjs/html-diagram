@@ -44,6 +44,52 @@
    "round_nodes": 3
   }
  },
+ "gpt56-astra": {
+  "bytes": 118078,
+  "engine_css_ok": true,
+  "engine_js_ok": true,
+  "title": "편집 가능한 도식 엔진 기능 샘플러",
+  "dashes": 0,
+  "emoji": 0,
+  "nodes": 42,
+  "nodes_without_id": 0,
+  "dup_ids": 0,
+  "nodes_missing_inline_pos": 0,
+  "edges": 14,
+  "edges_bad_ref": 0,
+  "canvases": 2,
+  "edge_features": {
+   "solid": 9,
+   "styles": [
+    "dashed",
+    "dotted",
+    "solid"
+   ],
+   "arrows": [
+    "both",
+    "end",
+    "none"
+   ],
+   "curve": 7,
+   "opacity": 6,
+   "flow": 1,
+   "label": 14,
+   "side_anchor": 9,
+   "ratio_anchor": 2,
+   "coord_end": 2
+  },
+  "text_features": {
+   "table": 1,
+   "list": 2,
+   "blockquote": 1,
+   "bold": 9,
+   "italic": 1,
+   "underline": 1,
+   "strike": 1,
+   "svg_icons": 3,
+   "round_nodes": 3
+  }
+ },
  "gpt56-luna": {
   "bytes": 118453,
   "engine_css_ok": true,

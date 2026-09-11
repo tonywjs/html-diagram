@@ -15,7 +15,7 @@
 | Claude Fable 5.1 | 이 저장소를 만든 세션(기준본) | max | 브라우저 검증 |
 | Claude Opus 5, Sonnet 5 | Claude Code 서브에이전트 | max (세션 상속) | 브라우저 검증 |
 | GPT-5.6 luna, terra, sol | Codex CLI 0.154.0 `codex exec` | xhigh (설정 기본값) | 정적 검사만(브라우저 없음) |
-| GPT-5.6 astra | 추가 예정 | xhigh | |
+| GPT-5.6 astra | 사용자가 Codex CLI로 직접 실행 | xhigh | 정적 검사만(브라우저 없음) |
 
 표의 브라우저 판정(품질 스니펫, 콘솔, 드래그)은 모델이 아니라 하네스가 전부 수행했습니다.
 

@@ -320,5 +320,54 @@
    "shots/gpt56-luna-850.png",
    "shots/gpt56-luna-1700.png"
   ]
+ },
+ "gpt56-astra": {
+  "quality": {
+   "pass": true,
+   "canvases": [
+    {
+     "canvas": 1,
+     "size": "1280x962",
+     "fill": 90,
+     "minFont": 12,
+     "scale": 1,
+     "ok": true
+    },
+    {
+     "canvas": 2,
+     "size": "1280x1064",
+     "fill": 94,
+     "minFont": 12,
+     "scale": 1,
+     "ok": true
+    }
+   ],
+   "offenders": []
+  },
+  "render": {
+   "edges": 14,
+   "hidden": 0,
+   "labels": 14,
+   "nodes": 42,
+   "canvases": 2,
+   "title": "편집 가능한 도식 엔진 기능 샘플러",
+   "fig": true,
+   "height": 2431
+  },
+  "drag": {
+   "node": "a-card",
+   "moved": true,
+   "edgeFollowed": true
+  },
+  "shots": [
+   "./artifacts/gpt56-astra-0.png",
+   "./artifacts/gpt56-astra-850.png",
+   "./artifacts/gpt56-astra-1700.png"
+  ],
+  "shots_local": [
+   "shots/gpt56-astra-0.png",
+   "shots/gpt56-astra-850.png",
+   "shots/gpt56-astra-1700.png"
+  ]
  }
 }
