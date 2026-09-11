@@ -1,0 +1,276 @@
+{
+ "fable51": {
+  "bytes": 117494,
+  "engine_css_ok": true,
+  "engine_js_ok": true,
+  "title": "편집 가능한 도식 기능 샘플러",
+  "dashes": 0,
+  "emoji": 0,
+  "nodes": 54,
+  "nodes_without_id": 0,
+  "dup_ids": 0,
+  "nodes_missing_inline_pos": 0,
+  "edges": 20,
+  "edges_bad_ref": 0,
+  "canvases": 2,
+  "edge_features": {
+   "solid": 13,
+   "styles": [
+    "dashed",
+    "dotted"
+   ],
+   "arrows": [
+    "both",
+    "end",
+    "none"
+   ],
+   "curve": 5,
+   "opacity": 1,
+   "flow": 2,
+   "label": 19,
+   "side_anchor": 3,
+   "ratio_anchor": 5,
+   "coord_end": 1
+  },
+  "text_features": {
+   "table": 3,
+   "list": 3,
+   "blockquote": 1,
+   "bold": 11,
+   "italic": 5,
+   "underline": 1,
+   "strike": 1,
+   "svg_icons": 6,
+   "round_nodes": 3
+  }
+ },
+ "gpt56-luna": {
+  "bytes": 118453,
+  "engine_css_ok": true,
+  "engine_js_ok": true,
+  "title": "편집 가능한 도식 엔진 기능 샘플러",
+  "dashes": 0,
+  "emoji": 0,
+  "nodes": 47,
+  "nodes_without_id": 0,
+  "dup_ids": 0,
+  "nodes_missing_inline_pos": 0,
+  "edges": 14,
+  "edges_bad_ref": 0,
+  "canvases": 2,
+  "edge_features": {
+   "solid": 7,
+   "styles": [
+    "dashed",
+    "dotted",
+    "solid"
+   ],
+   "arrows": [
+    "both",
+    "end",
+    "none"
+   ],
+   "curve": 4,
+   "opacity": 2,
+   "flow": 1,
+   "label": 14,
+   "side_anchor": 8,
+   "ratio_anchor": 1,
+   "coord_end": 4
+  },
+  "text_features": {
+   "table": 1,
+   "list": 2,
+   "blockquote": 1,
+   "bold": 3,
+   "italic": 1,
+   "underline": 1,
+   "strike": 1,
+   "svg_icons": 1,
+   "round_nodes": 2
+  }
+ },
+ "gpt56-sol": {
+  "bytes": 116585,
+  "engine_css_ok": true,
+  "engine_js_ok": true,
+  "title": "편집 가능한 도식 엔진 기능 샘플러",
+  "dashes": 0,
+  "emoji": 0,
+  "nodes": 38,
+  "nodes_without_id": 0,
+  "dup_ids": 0,
+  "nodes_missing_inline_pos": 0,
+  "edges": 13,
+  "edges_bad_ref": 0,
+  "canvases": 2,
+  "edge_features": {
+   "solid": 8,
+   "styles": [
+    "dashed",
+    "dotted",
+    "solid"
+   ],
+   "arrows": [
+    "both",
+    "end",
+    "none"
+   ],
+   "curve": 4,
+   "opacity": 2,
+   "flow": 1,
+   "label": 13,
+   "side_anchor": 8,
+   "ratio_anchor": 2,
+   "coord_end": 2
+  },
+  "text_features": {
+   "table": 1,
+   "list": 2,
+   "blockquote": 1,
+   "bold": 10,
+   "italic": 1,
+   "underline": 1,
+   "strike": 1,
+   "svg_icons": 0,
+   "round_nodes": 1
+  }
+ },
+ "gpt56-terra": {
+  "bytes": 115123,
+  "engine_css_ok": true,
+  "engine_js_ok": true,
+  "title": "편집 가능한 도식 엔진 기능 샘플러",
+  "dashes": 0,
+  "emoji": 0,
+  "nodes": 21,
+  "nodes_without_id": 0,
+  "dup_ids": 0,
+  "nodes_missing_inline_pos": 0,
+  "edges": 13,
+  "edges_bad_ref": 0,
+  "canvases": 2,
+  "edge_features": {
+   "solid": 6,
+   "styles": [
+    "dashed",
+    "dotted",
+    "solid"
+   ],
+   "arrows": [
+    "both",
+    "end",
+    "none"
+   ],
+   "curve": 8,
+   "opacity": 3,
+   "flow": 2,
+   "label": 13,
+   "side_anchor": 12,
+   "ratio_anchor": 1,
+   "coord_end": 1
+  },
+  "text_features": {
+   "table": 1,
+   "list": 2,
+   "blockquote": 0,
+   "bold": 22,
+   "italic": 4,
+   "underline": 1,
+   "strike": 1,
+   "svg_icons": 7,
+   "round_nodes": 2
+  }
+ },
+ "opus5": {
+  "bytes": 132703,
+  "engine_css_ok": true,
+  "engine_js_ok": true,
+  "title": "편집 가능한 도식 엔진 기능 샘플러",
+  "dashes": 0,
+  "emoji": 0,
+  "nodes": 67,
+  "nodes_without_id": 0,
+  "dup_ids": 0,
+  "nodes_missing_inline_pos": 0,
+  "edges": 20,
+  "edges_bad_ref": 0,
+  "canvases": 3,
+  "edge_features": {
+   "solid": 15,
+   "styles": [
+    "dashed",
+    "dotted"
+   ],
+   "arrows": [
+    "both",
+    "end",
+    "none"
+   ],
+   "curve": 7,
+   "opacity": 1,
+   "flow": 2,
+   "label": 8,
+   "side_anchor": 5,
+   "ratio_anchor": 5,
+   "coord_end": 1
+  },
+  "text_features": {
+   "table": 1,
+   "list": 2,
+   "blockquote": 1,
+   "bold": 9,
+   "italic": 1,
+   "underline": 1,
+   "strike": 1,
+   "svg_icons": 7,
+   "round_nodes": 3
+  }
+ },
+ "sonnet5": {
+  "bytes": 141197,
+  "engine_css_ok": true,
+  "engine_js_ok": true,
+  "title": "편집 가능한 도식 엔진 기능 샘플러",
+  "dashes": 0,
+  "emoji": 0,
+  "nodes": 97,
+  "nodes_without_id": 0,
+  "dup_ids": 0,
+  "nodes_missing_inline_pos": 0,
+  "edges": 31,
+  "edges_bad_ref": 0,
+  "canvases": 4,
+  "edge_features": {
+   "solid": 24,
+   "styles": [
+    "dashed",
+    "dotted",
+    "solid"
+   ],
+   "arrows": [
+    "both",
+    "end",
+    "none"
+   ],
+   "curve": 8,
+   "opacity": 3,
+   "flow": 2,
+   "label": 22,
+   "side_anchor": 4,
+   "ratio_anchor": 2,
+   "coord_end": 1
+  },
+  "text_features": {
+   "table": 1,
+   "list": 3,
+   "blockquote": 2,
+   "bold": 10,
+   "italic": 3,
+   "underline": 1,
+   "strike": 1,
+   "svg_icons": 2,
+   "round_nodes": 5
+  }
+ }
+}

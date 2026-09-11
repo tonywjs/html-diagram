@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>연합학습의 장점과 단점</title>
+<style>
+/* ================= 문서 스타일 ================= */
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
+:root{
+  --blue:#2563eb; --indigo:#4f46e5; --cyan:#0891b2;
+  --ink:#0f172a; --sub:#64748b; --line:#e6eaf0;
+  --amber:#b45309; --amber-ink:#7c3d06; --amber-bg:#fff7ed; --amber-line:#f4d7ad;
+  --font:'Pretendard','Apple SD Gothic Neo','Malgun Gothic','맑은 고딕',-apple-system,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#cfd6e0;font-family:var(--font);color:var(--ink);-webkit-font-smoothing:antialiased;
+  padding:26px 16px;}
+.fig-stage{max-width:1248px;margin:0 auto;border-radius:18px;overflow:hidden;
+  background:radial-gradient(900px 460px at 42% 320px,#eef4ff 0%,rgba(238,244,255,0) 60%),
+             linear-gradient(180deg,#ffffff 0%,#f5f8fc 100%);
+  box-shadow:0 18px 60px rgba(20,30,60,.20);padding:40px 24px 30px;}
+
+/* 헤더 (캔버스 밖 일반 HTML. 더블클릭 글자 수정) */
+.head-row{display:flex;justify-content:space-between;align-items:flex-start;max-width:1200px;margin:0 auto 18px;}
+.kick{font-size:13px;font-weight:800;letter-spacing:.18em;color:var(--blue);}
+h1{font-size:38px;font-weight:800;letter-spacing:-.02em;margin-top:7px;}
+h1 .g{background:linear-gradient(90deg,var(--blue),var(--indigo));-webkit-background-clip:text;background-clip:text;color:transparent;}
+.legend{display:flex;gap:16px;margin-top:10px;font-size:12.5px;color:var(--sub);}
+.legend b{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:5px;vertical-align:1px;}
+
+/* ---- 기관 카드 ---- */
+.inst{background:#fff;border:1px solid var(--line);border-radius:13px;
+  box-shadow:0 5px 16px rgba(20,30,60,.07);display:flex;align-items:center;gap:10px;padding:0 12px;}
+.inst .ii{width:34px;height:34px;border-radius:9px;background:#eef4ff;display:flex;align-items:center;justify-content:center;flex:0 0 auto;}
+.inst .ii svg{width:20px;height:20px;stroke:var(--blue);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;}
+.inst .nm{font-size:14.5px;font-weight:700;line-height:1.1;}
+.inst .dt{font-size:12px;color:#94a3b8;margin-top:3px;}
+
+/* ---- 허브 ---- */
+.hubbody{width:100%;height:100%;border-radius:50%;
+  background:radial-gradient(circle at 38% 32%,#4f7cf0 0%,#2563eb 46%,#1e3aa8 100%);
+  box-shadow:0 14px 34px rgba(37,99,235,.42),inset 0 2px 8px rgba(255,255,255,.25);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;text-align:center;}
+.hubbody svg{width:34px;height:34px;stroke:#fff;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;opacity:.95;margin-bottom:4px;}
+.hubbody .hl{font-size:17px;font-weight:800;line-height:1.2;}
+.hubbody .hs{font-size:12px;font-weight:600;opacity:.82;letter-spacing:.04em;margin-top:2px;}
+
+/* ---- 인용문 ---- */
+.quote .q{font-size:26px;font-weight:800;line-height:1.32;letter-spacing:-.02em;color:var(--ink);}
+.quote .q em{font-style:normal;color:var(--blue);}
+.quote .qs{font-size:14px;line-height:1.6;color:var(--sub);margin-top:12px;padding-left:14px;border-left:3px solid #dbe6ff;}
+
+/* ---- 섹션 헤더 ---- */
+.sec-h{display:flex;align-items:baseline;gap:12px;}
+.sec-h .t{font-size:21px;font-weight:800;}
+.sec-h .k{font-size:12px;font-weight:800;letter-spacing:.16em;color:#94a3b8;}
+.sec-h .ln{flex:1;height:1px;background:var(--line);align-self:center;}
+
+/* ---- 장점 테마 카드 ---- */
+.tcard{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px 18px;
+  box-shadow:0 6px 20px rgba(20,30,60,.06);position:relative;overflow:hidden;width:100%;height:100%;}
+.tcard::before{content:"";position:absolute;left:0;top:0;width:100%;height:4px;}
+.tcard.c1::before{background:var(--blue)} .tcard.c2::before{background:var(--indigo)} .tcard.c3::before{background:var(--cyan)}
+.tcard .th{font-size:15.5px;font-weight:800;margin:4px 0 10px;}
+.tcard.c1 .th{color:var(--blue)} .tcard.c2 .th{color:var(--indigo)} .tcard.c3 .th{color:var(--cyan)}
+.brow{display:flex;gap:11px;align-items:flex-start;padding:8px 0;}
+.brow + .brow{border-top:1px dashed #eef1f6;}
+.brow .bi{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex:0 0 auto;}
+.brow .bi svg{width:19px;height:19px;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;}
+.tcard.c1 .bi{background:#eaf1ff}.tcard.c1 .bi svg{stroke:var(--blue)}
+.tcard.c2 .bi{background:#eeecff}.tcard.c2 .bi svg{stroke:var(--indigo)}
+.tcard.c3 .bi{background:#e6f6fb}.tcard.c3 .bi svg{stroke:var(--cyan)}
+.brow .bh{font-size:14.5px;font-weight:700;line-height:1.25}
+.brow .bd{font-size:12.5px;color:var(--sub);line-height:1.4;margin-top:2px}
+
+/* ---- 과제 밴드 ---- */
+.cband{background:var(--amber-bg);border:1px solid var(--amber-line);border-radius:16px;
+  padding:16px 22px 18px;width:100%;height:100%;}
+.cband .ch{display:flex;align-items:center;gap:10px;margin-bottom:13px;}
+.cband .ch .lbl{font-size:16px;font-weight:800;color:var(--amber);white-space:nowrap;}
+.cband .ch .msg{font-size:13px;color:var(--amber-ink);line-height:1.4;}
+.cgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+.citem{display:flex;gap:10px;align-items:flex-start;}
+.citem .ci{width:32px;height:32px;border-radius:9px;background:#fff;border:1px solid var(--amber-line);
+  display:flex;align-items:center;justify-content:center;flex:0 0 auto;}
+.citem .ci svg{width:18px;height:18px;stroke:var(--amber);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;}
+.citem .chh{font-size:13.5px;font-weight:700;line-height:1.2}
+.citem .cdd{font-size:12px;color:#9a6a3a;line-height:1.4;margin-top:2px}
+
+.foot{display:flex;justify-content:space-between;max-width:1200px;margin:14px auto 0;
+  padding-top:12px;border-top:1px solid var(--line);font-size:12px;color:var(--sub);}
+</style>
+<style id="fig-editor-css">
+/*__FIG_EDITOR_CSS__*/
+</style>
+</head>
+<body>
+<div class="fig-stage">
+
+  <div class="head-row">
+    <div>
+      <div class="kick">K-MELLODDY · FEDERATED LEARNING</div>
+      <h1>연합학습의 <span class="g">장점과 단점</span></h1>
+    </div>
+    <div class="legend">
+      <span><b style="background:#2563eb"></b>학습 전송</span>
+      <span><b style="background:#0e7490"></b>모델 배포</span>
+      <span><b style="background:#b45309"></b>도입 과제</span>
+    </div>
+  </div>
+
+  <!-- ================= 캔버스 ================= -->
+  <div class="fig-canvas" data-size="1200x860" style="margin:0 auto">
+
+    <!-- 기관 노드 -->
+    <div class="fig-node inst" id="n-hospital" style="left:0px;top:36px;width:158px;height:60px">
+      <span class="ii"><svg viewBox="0 0 24 24"><path d="M4 21V7l8-4 8 4v14"/><path d="M4 21h16"/><path d="M12 8v6M9 11h6"/></svg></span>
+      <div><div class="nm">병원</div><div class="dt">데이터 보관</div></div>
+    </div>
+    <div class="fig-node inst" id="n-pharma" style="left:0px;top:146px;width:158px;height:60px">
+      <span class="ii"><svg viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="8" rx="4"/><path d="M12 8v8"/></svg></span>
+      <div><div class="nm">제약기업</div><div class="dt">데이터 보관</div></div>
+    </div>
+    <div class="fig-node inst" id="n-univ" style="left:0px;top:256px;width:158px;height:60px">
+      <span class="ii"><svg viewBox="0 0 24 24"><path d="M12 4L2 9l10 5 10-5-10-5z"/><path d="M6 11v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/></svg></span>
+      <div><div class="nm">대학·연구소</div><div class="dt">데이터 보관</div></div>
+    </div>
+    <div class="fig-node" id="n-note" style="left:0px;top:330px;width:430px;background:transparent;border:none;font-size:12px;color:#64748b">
+      <b style="color:#1e293b">병원·제약기업·대학·연구소·바이오벤처</b> 등 다수 기관 참여
+    </div>
+
+    <!-- 허브 -->
+    <div class="fig-node" id="n-hub" style="left:481px;top:92px;width:158px;height:158px;background:transparent;border:none">
+      <div class="hubbody">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="2.2"/><circle cx="5" cy="17" r="2.2"/><circle cx="19" cy="17" r="2.2"/><path d="M11 6.8L6 15M13 6.8L18 15M7 17h10"/></svg>
+        <div class="hl">글로벌</div><div class="hs">AI 모델</div>
+      </div>
+    </div>
+
+    <!-- 인용문 -->
+    <div class="fig-node quote" id="n-quote" style="left:726px;top:74px;width:374px;background:transparent;border:none">
+      <div class="q">데이터는 그대로,<br><em>학습만</em> 오간다</div>
+      <div class="qs">원본 데이터는 각 기관에 머물고, AI의 학습 능력(가중치)만 중앙에 모여 하나의 모델이 된 뒤 다시 배포됩니다.</div>
+    </div>
+
+    <!-- 연결 화살표 -->
+    <div class="fig-edge" id="e-h" data-from="n-hospital" data-to="n-hub" data-style="dashed" data-color="#2563eb" data-width="2" data-curve="0.16" data-arrow="end"></div>
+    <div class="fig-edge" id="e-p" data-from="n-pharma" data-to="n-hub" data-style="dashed" data-color="#2563eb" data-width="2" data-curve="0" data-arrow="end" data-label="학습(가중치)만 전송"></div>
+    <div class="fig-edge" id="e-u" data-from="n-univ" data-to="n-hub" data-style="dashed" data-color="#2563eb" data-width="2" data-curve="-0.16" data-arrow="end"></div>
+    <div class="fig-edge" id="e-back" data-from="n-hub" data-to="196,320" data-anchor-from="bottom" data-color="#0e7490" data-width="2.4" data-curve="0.35" data-arrow="end" data-label="모델 배포 · 각 기관에 재배포"></div>
+
+    <!-- 섹션 헤더 -->
+    <div class="fig-node sec-h" id="n-sec" style="left:0px;top:392px;width:1200px;background:transparent;border:none">
+      <span class="t">그래서 얻는 것. 장점</span><span class="k">ADVANTAGE</span><span class="ln"></span>
+    </div>
+
+    <!-- 장점 테마 카드 -->
+    <div class="fig-node" id="n-t1" style="left:0px;top:444px;width:368px;height:196px;background:transparent;border:none;padding:0">
+      <div class="tcard c1">
+        <div class="th">안전한 데이터 활용</div>
+        <div class="brow"><span class="bi"><svg viewBox="0 0 24 24"><path d="M12 3l7 2.6v5.1c0 4.4-3 7.4-7 8.9-4-1.5-7-4.5-7-8.9V5.6L12 3z"/><path d="M9 12l2 2 4-4"/></svg></span><div><div class="bh">개인정보보호에 유리</div><div class="bd">원본 데이터 비이동, 가중치만 이동 → 구조적으로 안전</div></div></div>
+        <div class="brow"><span class="bi"><svg viewBox="0 0 24 24"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4"/><path d="M9.5 14l2 2 3.3-3.4"/></svg></span><div><div class="bh">IRB/DRB 간소화</div><div class="bd">사용 목적이 AI 학습으로 처음부터 한정 → 심의 일괄 처리</div></div></div>
+      </div>
+    </div>
+    <div class="fig-node" id="n-t2" style="left:416px;top:444px;width:368px;height:196px;background:transparent;border:none;padding:0">
+      <div class="tcard c2">
+        <div class="th">다기관 협력과 평가</div>
+        <div class="brow"><span class="bi"><svg viewBox="0 0 24 24"><circle cx="6" cy="7" r="2"/><circle cx="18" cy="7" r="2"/><circle cx="12" cy="17.5" r="2"/><path d="M7.6 8.4l3 7.2M16.4 8.4l-3 7.2M8 7h8"/></svg></span><div><div class="bh">다기관 공동 AI 개발</div><div class="bd">경쟁 기관 간에도 안전한 협력 (희귀·난치질환에 유효)</div></div></div>
+        <div class="brow"><span class="bi"><svg viewBox="0 0 24 24"><path d="M5 20V11M12 20V5M19 20v-6"/><path d="M4 20h16"/></svg></span><div><div class="bh">데이터 기여도 측정</div><div class="bd">기관별 데이터 가치 평가 → 차등 인센티브 설계</div></div></div>
+      </div>
+    </div>
+    <div class="fig-node" id="n-t3" style="left:832px;top:444px;width:368px;height:196px;background:transparent;border:none;padding:0">
+      <div class="tcard c3">
+        <div class="th">빠른 개발과 확산</div>
+        <div class="brow"><span class="bi"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.2"/><path d="M5.6 20a6.4 6.4 0 0 1 12.8 0"/></svg></span><div><div class="bh">AI 개발자 참여 용이</div><div class="bd">다양한 데이터로 학습, 우수 모델은 즉시 다기관 배포</div></div></div>
+        <div class="brow"><span class="bi"><svg viewBox="0 0 24 24"><path d="M13 3L5 13.5h5.2L10 21l8-10.5h-5.2L13 3z"/></svg></span><div><div class="bh">빠른 모델 배포</div><div class="bd">새 예측모델 즉시 확산 (예: 팬데믹 글로벌 예측모델)</div></div></div>
+      </div>
+    </div>
+
+    <!-- 과제 밴드 -->
+    <div class="fig-node" id="n-band" style="left:0px;top:672px;width:1200px;height:170px;background:transparent;border:none;padding:0">
+      <div class="cband">
+        <div class="ch">
+          <span class="lbl">아직 남은 과제</span>
+          <span class="msg"><b>기술적 결함이 아니라 '제도·운영'의 문제</b>. 인센티브·법제도·중립조직이 갖춰지면 해소 가능한 성격입니다.</span>
+        </div>
+        <div class="cgrid">
+          <div class="citem"><span class="ci"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.4a2.4 2.4 0 1 1 3.4 2.2c-.8.4-1 .8-1 1.6"/><path d="M12 16.4v.02"/></svg></span><div><div class="chh">이해 난이도</div><div class="cdd">원리·장점을 직관적으로 이해하기 어려움</div></div></div>
+          <div class="citem"><span class="ci"><svg viewBox="0 0 24 24"><path d="M12 3v18M6 21h12M4.5 7.5h15"/><path d="M4.5 7.5L2.5 13a2.6 2.6 0 0 0 4 0zM19.5 7.5L17.5 13a2.6 2.6 0 0 0 4 0z"/></svg></span><div><div class="chh">참여 주저</div><div class="cdd">대형 보유기관의 '상대적 손해' 인식</div></div></div>
+          <div class="citem"><span class="ci"><svg viewBox="0 0 24 24"><path d="M6 3h9l3 3v15H6z"/><path d="M15 3v3h3"/><path d="M9 11h6M9 14h6M9 17h4"/></svg></span><div><div class="chh">법제화 미비</div><div class="cdd">안심하고 도입할 법적·제도적 근거 부재</div></div></div>
+          <div class="citem"><span class="ci"><svg viewBox="0 0 24 24"><path d="M4 21V8l7-4 7 4v13"/><path d="M4 21h16"/><path d="M9 21v-4h4v4"/></svg></span><div><div class="chh">중립 운영조직</div><div class="cdd">의사결정·데이터 표준화 주체 필요</div></div></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="foot">
+    <span>K-MELLODDY 사업단 · 연합학습(Federated Learning) 설명자료</span>
+    <span>2026. 7.</span>
+  </div>
+</div>
+<script>
+/*__FIG_EDITOR_JS__*/
+</script>
+</body>
+</html>

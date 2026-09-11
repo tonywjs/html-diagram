@@ -1,0 +1,324 @@
+{
+ "fable51": {
+  "quality": {
+   "pass": true,
+   "canvases": [
+    {
+     "canvas": 1,
+     "size": "1200x1484",
+     "fill": 92,
+     "minFont": 12,
+     "scale": 1,
+     "ok": true
+    },
+    {
+     "canvas": 2,
+     "size": "1200x150",
+     "fill": 99,
+     "minFont": 12,
+     "scale": 1,
+     "ok": true
+    }
+   ],
+   "offenders": []
+  },
+  "render": {
+   "edges": 20,
+   "hidden": 0,
+   "labels": 19,
+   "nodes": 54,
+   "canvases": 2,
+   "title": "편집 가능한 도식 기능 샘플러",
+   "fig": true,
+   "height": 1955
+  },
+  "drag": {
+   "node": "a-view",
+   "moved": true,
+   "edgeFollowed": true
+  },
+  "shots": [
+   "./artifacts/fable51-0.png",
+   "./artifacts/fable51-850.png",
+   "./artifacts/fable51-1700.png"
+  ],
+  "shots_local": [
+   "shots/fable51-0.png",
+   "shots/fable51-850.png",
+   "shots/fable51-1700.png"
+  ]
+ },
+ "opus5": {
+  "quality": {
+   "pass": true,
+   "canvases": [
+    {
+     "canvas": 1,
+     "size": "1200x466",
+     "fill": 100,
+     "minFont": 12.5,
+     "scale": 1,
+     "ok": true
+    },
+    {
+     "canvas": 2,
+     "size": "1200x864",
+     "fill": 100,
+     "minFont": 12.5,
+     "scale": 1,
+     "ok": true
+    },
+    {
+     "canvas": 3,
+     "size": "1200x784",
+     "fill": 100,
+     "minFont": 12.5,
+     "scale": 1,
+     "ok": true
+    }
+   ],
+   "offenders": []
+  },
+  "render": {
+   "edges": 20,
+   "hidden": 0,
+   "labels": 8,
+   "nodes": 67,
+   "canvases": 3,
+   "title": "편집 가능한 도식 엔진 기능 샘플러",
+   "fig": true,
+   "height": 2516
+  },
+  "drag": {
+   "node": "c1-m1",
+   "moved": true,
+   "edgeFollowed": true
+  },
+  "shots": [
+   "./artifacts/opus5-0.png",
+   "./artifacts/opus5-850.png",
+   "./artifacts/opus5-1700.png"
+  ],
+  "shots_local": [
+   "shots/opus5-0.png",
+   "shots/opus5-850.png",
+   "shots/opus5-1700.png"
+  ]
+ },
+ "sonnet5": {
+  "quality": {
+   "pass": true,
+   "canvases": [
+    {
+     "canvas": 1,
+     "size": "1200x750",
+     "fill": 94,
+     "minFont": 12,
+     "scale": 1,
+     "ok": true
+    },
+    {
+     "canvas": 2,
+     "size": "1200x1180",
+     "fill": 84,
+     "minFont": 12,
+     "scale": 1,
+     "ok": true
+    },
+    {
+     "canvas": 3,
+     "size": "1200x940",
+     "fill": 96,
+     "minFont": 12,
+     "scale": 1,
+     "ok": true
+    },
+    {
+     "canvas": 4,
+     "size": "1200x660",
+     "fill": 92,
+     "minFont": 12,
+     "scale": 1,
+     "ok": true
+    }
+   ],
+   "offenders": []
+  },
+  "render": {
+   "edges": 31,
+   "hidden": 0,
+   "labels": 22,
+   "nodes": 97,
+   "canvases": 4,
+   "title": "편집 가능한 도식 엔진 기능 샘플러",
+   "fig": true,
+   "height": 4097
+  },
+  "drag": {
+   "node": "a-c-data",
+   "moved": true,
+   "edgeFollowed": true
+  },
+  "shots": [
+   "./artifacts/sonnet5-0.png",
+   "./artifacts/sonnet5-850.png",
+   "./artifacts/sonnet5-1700.png",
+   "./artifacts/sonnet5-2550.png",
+   "./artifacts/sonnet5-3400.png"
+  ],
+  "shots_local": [
+   "shots/sonnet5-0.png",
+   "shots/sonnet5-850.png",
+   "shots/sonnet5-1700.png",
+   "shots/sonnet5-2550.png",
+   "shots/sonnet5-3400.png"
+  ]
+ },
+ "gpt56-terra": {
+  "quality": {
+   "pass": true,
+   "canvases": [
+    {
+     "canvas": 1,
+     "size": "1200x1040",
+     "fill": 100,
+     "minFont": 12,
+     "scale": 1,
+     "ok": true
+    },
+    {
+     "canvas": 2,
+     "size": "1200x820",
+     "fill": 100,
+     "minFont": 12,
+     "scale": 1,
+     "ok": true
+    }
+   ],
+   "offenders": []
+  },
+  "render": {
+   "edges": 13,
+   "hidden": 0,
+   "labels": 13,
+   "nodes": 21,
+   "canvases": 2,
+   "title": "편집 가능한 도식 엔진 기능 샘플러",
+   "fig": true,
+   "height": 2207
+  },
+  "drag": {
+   "node": "n-card",
+   "moved": true,
+   "edgeFollowed": true
+  },
+  "shots": [
+   "./artifacts/gpt56-terra-0.png",
+   "./artifacts/gpt56-terra-850.png",
+   "./artifacts/gpt56-terra-1700.png"
+  ],
+  "shots_local": [
+   "shots/gpt56-terra-0.png",
+   "shots/gpt56-terra-850.png",
+   "shots/gpt56-terra-1700.png"
+  ]
+ },
+ "gpt56-sol": {
+  "quality": {
+   "pass": true,
+   "canvases": [
+    {
+     "canvas": 1,
+     "size": "1200x830",
+     "fill": 89,
+     "minFont": 12,
+     "scale": 1,
+     "ok": true
+    },
+    {
+     "canvas": 2,
+     "size": "1200x1000",
+     "fill": 98,
+     "minFont": 12,
+     "scale": 1,
+     "ok": true
+    }
+   ],
+   "offenders": []
+  },
+  "render": {
+   "edges": 13,
+   "hidden": 0,
+   "labels": 13,
+   "nodes": 38,
+   "canvases": 2,
+   "title": "편집 가능한 도식 엔진 기능 샘플러",
+   "fig": true,
+   "height": 2275
+  },
+  "drag": {
+   "node": "n-card",
+   "moved": true,
+   "edgeFollowed": true
+  },
+  "shots": [
+   "./artifacts/gpt56-sol-0.png",
+   "./artifacts/gpt56-sol-850.png",
+   "./artifacts/gpt56-sol-1700.png"
+  ],
+  "shots_local": [
+   "shots/gpt56-sol-0.png",
+   "shots/gpt56-sol-850.png",
+   "shots/gpt56-sol-1700.png"
+  ]
+ },
+ "gpt56-luna": {
+  "quality": {
+   "pass": true,
+   "canvases": [
+    {
+     "canvas": 1,
+     "size": "1200x912",
+     "fill": 86,
+     "minFont": 12,
+     "scale": 1,
+     "ok": true
+    },
+    {
+     "canvas": 2,
+     "size": "1200x980",
+     "fill": 93,
+     "minFont": 12,
+     "scale": 1,
+     "ok": true
+    }
+   ],
+   "offenders": []
+  },
+  "render": {
+   "edges": 14,
+   "hidden": 0,
+   "labels": 14,
+   "nodes": 47,
+   "canvases": 2,
+   "title": "편집 가능한 도식 엔진 기능 샘플러",
+   "fig": true,
+   "height": 2208
+  },
+  "drag": {
+   "node": "sample-card",
+   "moved": true,
+   "edgeFollowed": true
+  },
+  "shots": [
+   "./artifacts/gpt56-luna-0.png",
+   "./artifacts/gpt56-luna-850.png",
+   "./artifacts/gpt56-luna-1700.png"
+  ],
+  "shots_local": [
+   "shots/gpt56-luna-0.png",
+   "shots/gpt56-luna-850.png",
+   "shots/gpt56-luna-1700.png"
+  ]
+ }
+}

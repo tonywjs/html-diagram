@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>신약 개발 단계별 프로세스</title>
+<style>
+/* ================= 문서 기본 스타일 (자유 수정 영역) ================= */
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
+:root{
+  --blue:#2563eb;    --blue-bg:#eaf1ff;   --blue-line:#c9dcff;
+  --indigo:#4f46e5;  --indigo-bg:#eeecff; --indigo-line:#d7d3fb;
+  --teal:#0d9488;    --teal-bg:#e3f6f3;   --teal-line:#b8e6df;
+  --rose:#e11d48;    --rose-bg:#fdecef;   --rose-line:#f7c3cf;
+  --ink:#0f172a; --sub:#64748b; --line:#e6eaf0;
+  --font:'Pretendard','Apple SD Gothic Neo','Malgun Gothic','맑은 고딕',-apple-system,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#e3e7ee;font-family:var(--font);color:var(--ink);-webkit-font-smoothing:antialiased;
+  padding:28px 16px;}
+.fig-stage{max-width:1264px;margin:0 auto;border-radius:18px;overflow:hidden;
+  background:linear-gradient(180deg,#ffffff 0%,#f6f8fb 100%);
+  box-shadow:0 18px 54px rgba(20,30,60,.18);padding:36px 32px 32px;}
+
+/* ---- 헤더 (캔버스 밖 일반 HTML) ---- */
+.head-row{display:flex;justify-content:space-between;align-items:flex-start;max-width:1200px;margin:0 auto 20px;gap:24px;flex-wrap:wrap;}
+.kick{font-size:13px;font-weight:800;letter-spacing:.18em;color:var(--blue);}
+h1{font-size:34px;font-weight:800;letter-spacing:-.02em;margin-top:8px;line-height:1.3;}
+h1 .g{background:linear-gradient(90deg,var(--blue),var(--indigo));-webkit-background-clip:text;background-clip:text;color:transparent;}
+.legend{display:flex;gap:16px;margin-top:12px;font-size:12.5px;color:var(--sub);flex-wrap:wrap;}
+.legend b{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:5px;vertical-align:1px;}
+
+/* ---- 섹션 헤더 (행 라벨) ---- */
+.sec-h{display:flex;align-items:baseline;gap:12px;}
+.sec-h .t{font-size:19px;font-weight:800;white-space:nowrap;}
+.sec-h .k{font-size:13px;font-weight:800;letter-spacing:.13em;color:#94a3b8;white-space:nowrap;}
+.sec-h .ln{flex:1;height:1px;background:var(--line);align-self:center;}
+
+/* ---- 단계 카드 ---- */
+.stage{background:#fff;border:1px solid var(--line);border-radius:16px;
+  box-shadow:0 6px 18px rgba(20,30,60,.07);padding:16px 18px;
+  display:flex;flex-direction:column;height:100%;position:relative;overflow:hidden;}
+.stage::before{content:"";position:absolute;left:0;top:0;width:100%;height:4px;}
+.stage .head{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.stage .badge{width:28px;height:28px;border-radius:50%;color:#fff;font-size:13px;font-weight:800;
+  display:flex;align-items:center;justify-content:center;flex:0 0 auto;letter-spacing:-.02em;}
+.stage .ic{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex:0 0 auto;}
+.stage .ic svg{width:21px;height:21px;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;}
+.stage .ttl{font-size:17px;font-weight:800;line-height:1.25;margin-bottom:8px;}
+.stage .dur{display:inline-flex;align-items:center;font-size:13px;font-weight:700;padding:3px 10px;
+  border-radius:20px;align-self:flex-start;margin-bottom:10px;}
+.stage .desc{font-size:13.5px;line-height:1.5;color:var(--sub);word-break:keep-all;}
+
+.stage.g1::before{background:var(--blue)}
+.stage.g1 .badge{background:var(--blue)}
+.stage.g1 .ic{background:var(--blue-bg)} .stage.g1 .ic svg{stroke:var(--blue)}
+.stage.g1 .dur{background:var(--blue-bg);color:#1d4ed8}
+
+.stage.g2::before{background:var(--indigo)}
+.stage.g2 .badge{background:var(--indigo)}
+.stage.g2 .ic{background:var(--indigo-bg)} .stage.g2 .ic svg{stroke:var(--indigo)}
+.stage.g2 .dur{background:var(--indigo-bg);color:#4338ca}
+
+.stage.g3::before{background:var(--teal)}
+.stage.g3 .badge{background:var(--teal)}
+.stage.g3 .ic{background:var(--teal-bg)} .stage.g3 .ic svg{stroke:var(--teal)}
+.stage.g3 .dur{background:var(--teal-bg);color:#0f766e}
+
+/* ---- 실패 분기 밴드 ---- */
+.failband{background:var(--rose-bg);border:1px solid var(--rose-line);border-radius:16px;
+  padding:18px 24px;width:100%;height:100%;display:flex;gap:26px;align-items:center;}
+.fb-left{flex:0 0 336px;}
+.fb-left .fbt{display:flex;align-items:center;gap:8px;font-size:16.5px;font-weight:800;color:var(--rose);margin-bottom:8px;}
+.fb-left .fbt svg{width:20px;height:20px;stroke:var(--rose);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto;}
+.fb-left .fbs{font-size:13.5px;color:#9d3049;line-height:1.5;word-break:keep-all;}
+.fb-chip{display:inline-block;margin-top:10px;background:#fff;border:1px solid var(--rose-line);color:var(--rose);
+  font-size:13px;font-weight:800;padding:4px 12px;border-radius:20px;}
+.fb-grid{flex:1;display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.fb-item{display:flex;gap:10px;align-items:flex-start;}
+.fb-item .fi{width:32px;height:32px;border-radius:9px;background:#fff;border:1px solid var(--rose-line);
+  display:flex;align-items:center;justify-content:center;flex:0 0 auto;}
+.fb-item .fi svg{width:18px;height:18px;stroke:var(--rose);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;}
+.fb-item .fh{font-size:13.5px;font-weight:700;line-height:1.25;color:#7a2438;}
+.fb-item .fd{font-size:13px;color:#9d5064;line-height:1.4;margin-top:2px;word-break:keep-all;}
+
+/* ---- 요약 통계 밴드 ---- */
+.statband{background:#f8fafc;border:1px solid var(--line);border-radius:16px;
+  padding:18px 26px;width:100%;height:100%;display:flex;align-items:center;}
+.statband .sb-cap{flex:0 0 168px;font-size:13.5px;font-weight:800;color:var(--ink);line-height:1.45;padding-right:18px;
+  border-right:1px solid var(--line);}
+.statband .sb-cap span{display:block;font-size:13px;font-weight:700;color:#94a3b8;letter-spacing:.1em;margin-bottom:4px;}
+.sb-grid{flex:1;display:grid;grid-template-columns:repeat(4,1fr);gap:14px;padding-left:24px;}
+.sb-item{text-align:left;}
+.sb-item .sv{font-size:21px;font-weight:800;color:var(--blue);letter-spacing:-.02em;white-space:nowrap;}
+.sb-item .sl{font-size:13px;font-weight:700;color:var(--ink);margin-top:5px;}
+.sb-item .sc{font-size:13px;color:var(--sub);margin-top:2px;line-height:1.4;word-break:keep-all;}
+
+.foot{display:flex;justify-content:space-between;max-width:1200px;margin:16px auto 0;
+  padding-top:12px;border-top:1px solid var(--line);font-size:12.5px;color:var(--sub);}
+</style>
+<style id="fig-editor-css">
+/*__FIG_EDITOR_CSS__*/
+</style>
+</head>
+<body>
+<div class="fig-stage">
+
+  <!-- ======== FIG:CONTENT START: 이 안을 작성한다 ======== -->
+  <!-- 캔버스 밖 일반 HTML(제목 등)도 편집 모드에서 더블클릭으로 글자 수정 가능 -->
+
+  <div class="head-row">
+    <div>
+      <div class="kick">K-MELLODDY · DRUG R&amp;D PIPELINE</div>
+      <h1>신약 개발, <span class="g">표적 발굴에서 품목허가까지</span></h1>
+    </div>
+    <div class="legend">
+      <span><b style="background:#2563eb"></b>연구·비임상</span>
+      <span><b style="background:#4f46e5"></b>임상시험</span>
+      <span><b style="background:#0d9488"></b>품목허가</span>
+      <span><b style="background:#e11d48"></b>개발 중단</span>
+    </div>
+  </div>
+
+  <!-- ================= 캔버스 ================= -->
+  <div class="fig-canvas" data-size="1200x950" style="margin:0 auto">
+
+    <!-- 1행 라벨: 연구·비임상 -->
+    <div class="fig-node sec-h" id="n-secA" style="left:0px;top:0px;width:1200px;background:transparent;border:none">
+      <span class="t">연구 · 비임상 단계</span><span class="k">DISCOVERY &amp; PRECLINICAL</span><span class="ln"></span>
+    </div>
+
+    <!-- 1행: 타겟발굴 → 후보물질선별 → 전임상 (좌→우) -->
+    <div class="fig-node" id="n-s1" style="left:0px;top:50px;width:372px;height:220px;background:transparent;border:none;padding:0">
+      <div class="stage g1">
+        <div class="head">
+          <span class="badge">01</span>
+          <span class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.3"/><circle cx="12" cy="12" r="4.4"/><circle cx="12" cy="12" r="0.9" fill="currentColor" stroke="none"/></svg></span>
+        </div>
+        <div class="ttl">타겟 발굴</div>
+        <span class="dur">2~3년</span>
+        <div class="desc">질병 기전을 분석해 치료 표적이 될 유전자·단백질을 발굴하고 검증합니다.</div>
+      </div>
+    </div>
+
+    <div class="fig-node" id="n-s2" style="left:414px;top:50px;width:372px;height:220px;background:transparent;border:none;padding:0">
+      <div class="stage g1">
+        <div class="head">
+          <span class="badge">02</span>
+          <span class="ic"><svg viewBox="0 0 24 24"><path d="M10 3h4M10.5 3v6.3L5.2 18.4A2.1 2.1 0 0 0 7 21.5h10a2.1 2.1 0 0 0 1.8-3.1L13.5 9.3V3"/><path d="M8.3 15h7.4"/></svg></span>
+        </div>
+        <div class="ttl">후보물질 선별</div>
+        <span class="dur">2~3년</span>
+        <div class="desc">수만~수백만 개 화합물을 스크리닝해 활성·선택성 높은 후보물질로 압축합니다.</div>
+      </div>
+    </div>
+
+    <div class="fig-node" id="n-s3" style="left:828px;top:50px;width:372px;height:220px;background:transparent;border:none;padding:0">
+      <div class="stage g1">
+        <div class="head">
+          <span class="badge">03</span>
+          <span class="ic"><svg viewBox="0 0 24 24"><circle cx="7.6" cy="8.1" r="1.7"/><circle cx="12" cy="6" r="1.7"/><circle cx="16.4" cy="8.1" r="1.7"/><path d="M12 12c-2.7 0-4.9 1.9-4.9 4.1 0 1.5 1.3 2.6 2.9 2.6.9 0 1.3-.3 2-.3s1.1.3 2 .3c1.6 0 2.9-1.1 2.9-2.6 0-2.2-2.2-4.1-4.9-4.1z"/></svg></span>
+        </div>
+        <div class="ttl">전임상</div>
+        <span class="dur">3~4년</span>
+        <div class="desc">동물모델로 독성·약효·체내동태(PK/PD)를 평가하고 임상시험계획(IND)을 신청합니다.</div>
+      </div>
+    </div>
+
+    <!-- 2행 라벨: 임상시험·허가 (turn-화살표 통로를 피해 폭을 800으로 제한) -->
+    <div class="fig-node sec-h" id="n-secB" style="left:0px;top:294px;width:800px;background:transparent;border:none">
+      <span class="t">임상시험 · 허가 단계</span><span class="k">CLINICAL TRIALS &amp; APPROVAL</span><span class="ln"></span>
+    </div>
+
+    <!-- 2행: 임상1상 → 임상2상 → 임상3상 → 품목허가 (우→좌, S자 흐름) -->
+    <div class="fig-node" id="n-s7" style="left:0px;top:342px;width:276px;height:220px;background:transparent;border:none;padding:0">
+      <div class="stage g3">
+        <div class="head">
+          <span class="badge">07</span>
+          <span class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="9.3" r="6.3"/><path d="M9.1 9.3l2 2 3.8-4"/><path d="M8.3 14.9L6.4 20.5l5.6-2.4 5.6 2.4-1.9-5.6"/></svg></span>
+        </div>
+        <div class="ttl">품목허가</div>
+        <span class="dur">1~2년</span>
+        <div class="desc">규제기관 허가심사와 생산시설 검증을 거쳐 최종 승인됩니다.</div>
+      </div>
+    </div>
+
+    <div class="fig-node" id="n-s6" style="left:308px;top:342px;width:276px;height:220px;background:transparent;border:none;padding:0">
+      <div class="stage g2">
+        <div class="head">
+          <span class="badge">06</span>
+          <span class="ic"><svg viewBox="0 0 24 24"><path d="M4 21V7l8-4 8 4v14"/><path d="M4 21h16"/><path d="M12 8v6M9 11h6"/></svg></span>
+        </div>
+        <div class="ttl">임상 3상</div>
+        <span class="dur">3~4년</span>
+        <div class="desc">환자 300~3,000명 대상 대규모 확증시험으로 최종 검증합니다.</div>
+      </div>
+    </div>
+
+    <div class="fig-node" id="n-s5" style="left:616px;top:342px;width:276px;height:220px;background:transparent;border:none;padding:0">
+      <div class="stage g2">
+        <div class="head">
+          <span class="badge">05</span>
+          <span class="ic"><svg viewBox="0 0 24 24"><circle cx="7.2" cy="7.6" r="2.5"/><path d="M2.8 19.2a4.4 4.4 0 0 1 8.8 0"/><circle cx="16.8" cy="7.6" r="2.5"/><path d="M12.4 19.2a4.4 4.4 0 0 1 8.8 0"/></svg></span>
+        </div>
+        <div class="ttl">임상 2상</div>
+        <span class="dur">약 2년</span>
+        <div class="desc">환자 100~300명 대상으로 유효성과 최적 용량을 탐색합니다.</div>
+      </div>
+    </div>
+
+    <div class="fig-node" id="n-s4" style="left:924px;top:342px;width:276px;height:220px;background:transparent;border:none;padding:0">
+      <div class="stage g2">
+        <div class="head">
+          <span class="badge">04</span>
+          <span class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="7.4" r="3.2"/><path d="M5.6 20a6.4 6.4 0 0 1 12.8 0"/></svg></span>
+        </div>
+        <div class="ttl">임상 1상</div>
+        <span class="dur">약 1년</span>
+        <div class="desc">건강한 성인 20~100명 대상으로 안전성·용량·부작용을 확인합니다.</div>
+      </div>
+    </div>
+
+    <!-- 실패 분기 밴드 -->
+    <div class="fig-node" id="n-failband" style="left:0px;top:602px;width:1200px;height:168px;background:transparent;border:none;padding:0">
+      <div class="failband">
+        <div class="fb-left">
+          <div class="fbt"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.3"/><path d="M8.4 8.4l7.2 7.2M15.6 8.4l-7.2 7.2"/></svg>실패 → 개발 중단</div>
+          <div class="fbs">임상 2상에서 유효성이 확인되지 않거나 예상치 못한 안전성 문제가 발견되면 프로그램이 종료됩니다.</div>
+          <span class="fb-chip">2상 실패율 약 60~70%</span>
+        </div>
+        <div class="fb-grid">
+          <div class="fb-item">
+            <span class="fi"><svg viewBox="0 0 24 24"><path d="M8.5 4h7v3h-7z"/><path d="M6.5 6.6h11V21h-11z"/><path d="M9.7 13.3l4.6 4.6M14.3 13.3l-4.6 4.6"/></svg></span>
+            <div><div class="fh">유효성 미입증</div><div class="fd">위약 대비 통계적 유의성 확보 실패</div></div>
+          </div>
+          <div class="fb-item">
+            <span class="fi"><svg viewBox="0 0 24 24"><path d="M12 4.3L21 19.2H3z"/><path d="M12 10.2v3.6"/><path d="M12 16.6v.02"/></svg></span>
+            <div><div class="fh">예상 밖 부작용</div><div class="fd">동물시험에서 못 본 안전성 이슈 발견</div></div>
+          </div>
+          <div class="fb-item">
+            <span class="fi"><svg viewBox="0 0 24 24"><path d="M4 20v-6.5M9.5 20V8M15 20v-4.5M20 20V10"/><path d="M3 20h18"/></svg></span>
+            <div><div class="fh">상업성 재평가</div><div class="fd">경쟁약물 등장 등으로 개발 우선순위 변경</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 전체 요약 통계 밴드 -->
+    <div class="fig-node" id="n-statband" style="left:0px;top:810px;width:1200px;height:140px;background:transparent;border:none;padding:0">
+      <div class="statband">
+        <div class="sb-cap"><span>SUMMARY</span>표적 발굴부터<br>품목허가까지</div>
+        <div class="sb-grid">
+          <div class="sb-item"><div class="sv">10~15년</div><div class="sl">총 개발기간</div><div class="sc">타겟 발굴~품목허가</div></div>
+          <div class="sb-item"><div class="sv">약 1~3조원</div><div class="sl">총 개발비용</div><div class="sc">임상시험 비중이 최대</div></div>
+          <div class="sb-item"><div class="sv">약 10%</div><div class="sl">임상 진입 후 승인률</div><div class="sc">1상 진입 대비 최종 허가</div></div>
+          <div class="sb-item"><div class="sv">1/5,000~10,000</div><div class="sl">후보물질 대비 승인</div><div class="sc">스크리닝 화합물 기준</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 연결 화살표 -->
+    <div class="fig-edge" id="e1" data-from="n-s1" data-to="n-s2" data-anchor-from="right" data-anchor-to="left" data-style="solid" data-color="#2563eb" data-width="2.2" data-curve="0" data-arrow="end"></div>
+    <div class="fig-edge" id="e2" data-from="n-s2" data-to="n-s3" data-anchor-from="right" data-anchor-to="left" data-style="solid" data-color="#2563eb" data-width="2.2" data-curve="0" data-arrow="end"></div>
+    <div class="fig-edge" id="e3" data-from="n-s3" data-to="n-s4" data-anchor-from="bottom" data-anchor-to="top" data-style="dashed" data-color="#4f46e5" data-width="2.2" data-curve="0.28" data-arrow="end"></div>
+    <div class="fig-edge" id="e4" data-from="n-s4" data-to="n-s5" data-anchor-from="left" data-anchor-to="right" data-style="solid" data-color="#4f46e5" data-width="2.2" data-curve="0" data-arrow="end"></div>
+    <div class="fig-edge" id="e5" data-from="n-s5" data-to="n-s6" data-anchor-from="left" data-anchor-to="right" data-style="solid" data-color="#0d9488" data-width="2.6" data-curve="0" data-arrow="end" data-label="성공"></div>
+    <div class="fig-edge" id="e6" data-from="n-s5" data-to="n-failband" data-anchor-from="bottom" data-anchor-to="top" data-style="dashed" data-color="#e11d48" data-width="2.2" data-curve="0.18" data-arrow="end" data-label="실패"></div>
+    <div class="fig-edge" id="e7" data-from="n-s6" data-to="n-s7" data-anchor-from="left" data-anchor-to="right" data-style="solid" data-color="#0d9488" data-width="2.2" data-curve="0" data-arrow="end"></div>
+
+  </div>
+
+  <div class="foot">
+    <span>K-MELLODDY 사업단 · 신약 개발 프로세스 설명자료</span>
+    <span>2026. 7.</span>
+  </div>
+
+  <!-- ======== FIG:CONTENT END ======== -->
+
+</div>
+<script>
+/*__FIG_EDITOR_JS__*/
+</script>
+</body>
+</html>

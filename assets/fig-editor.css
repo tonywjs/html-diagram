@@ -1,0 +1,175 @@
+/* ================================================================
+   fig-editor.css: 편집 가능한 HTML 도식 공용 엔진 스타일
+   (문서에 인라인 삽입. 규약: .fig-canvas / .fig-node / .fig-edge)
+   ================================================================ */
+
+/* ---------- 규약 기본 구조 ---------- */
+.fig-scale{position:relative;overflow:visible;}
+.fig-canvas{position:relative;transform-origin:0 0;}
+.fig-node{position:absolute;box-sizing:border-box;}
+.fig-node *{box-sizing:border-box;}
+.fig-edge{display:none;}            /* 데이터 캐리어. 렌더는 SVG 레이어가 담당 */
+.fig-edges{position:absolute;left:0;top:0;width:100%;height:100%;overflow:visible;pointer-events:none;z-index:5;}
+.fig-edges .fe-hit{pointer-events:none;}
+body.fig-editing .fig-edges .fe-hit{pointer-events:stroke;cursor:pointer;}
+.fig-elabel{position:absolute;z-index:6;font-size:12px;font-weight:700;padding:2px 8px;border-radius:12px;
+  background:rgba(255,255,255,.94);box-shadow:0 1px 4px rgba(15,23,42,.14);white-space:nowrap;
+  transform:translate(-50%,-50%);pointer-events:none;}
+body.fig-editing .fig-elabel{pointer-events:auto;cursor:text;}
+
+/* ---------- 편집 모드 공통 ---------- */
+body.fig-editing .fig-node{cursor:grab;}
+body.fig-editing .fig-node.fig-texting{cursor:text;}
+body.fig-editing .fig-node.fig-dragging{cursor:grabbing;}
+.fig-node.fig-selected{outline:2px solid #2563eb;outline-offset:2px;}
+.fig-node.fig-snaptarget{outline:2px dashed #059669;outline-offset:3px;}
+[contenteditable="true"]{outline:2px dashed #f59e0b !important;outline-offset:2px;border-radius:2px;min-width:8px;}
+
+/* 붙여넣기 하이라이트 깜빡임 */
+@keyframes figPasteFlash{
+  0%{box-shadow:0 0 0 3px rgba(37,99,235,.6),0 0 16px 5px rgba(37,99,235,.4);}
+  100%{box-shadow:0 0 0 0 rgba(37,99,235,0),0 0 0 0 rgba(37,99,235,0);}
+}
+.fig-node.fig-paste-flash{animation:figPasteFlash .85s ease-out;border-radius:inherit;}
+@keyframes figEdgeFlash{0%,55%{opacity:1;}22%,78%{opacity:.15;}100%{opacity:1;}}
+.fig-edges g.fig-paste-flash{animation:figEdgeFlash .7s ease-out;}
+
+/* 화살표 흐름 애니메이션 (움직이는 점선 marching-ants) */
+@keyframes figFlow{to{stroke-dashoffset:-28;}}
+.fig-edges g.fig-flow .fe-main{stroke-dasharray:7 7 !important;animation:figFlow 1.05s linear infinite;}
+@media (prefers-reduced-motion:reduce){.fig-edges g.fig-flow .fe-main{animation:none;}}
+
+/* 스냅 가이드 */
+.fig-guide{position:absolute;background:#f43f5e;z-index:40;pointer-events:none;}
+.fig-guide.v{width:1px;height:100%;top:0;}
+.fig-guide.h{height:1px;width:100%;left:0;}
+
+/* 리사이즈/끝점 핸들 */
+.fig-h{position:absolute;width:9px;height:9px;background:#fff;border:1.5px solid #2563eb;border-radius:2px;z-index:50;}
+.fig-h.nw{cursor:nwse-resize}.fig-h.n{cursor:ns-resize}.fig-h.ne{cursor:nesw-resize}
+.fig-h.e{cursor:ew-resize}.fig-h.se{cursor:nwse-resize}.fig-h.s{cursor:ns-resize}
+.fig-h.sw{cursor:nesw-resize}.fig-h.w{cursor:ew-resize}
+.fig-ep{position:absolute;width:13px;height:13px;border-radius:50%;background:#fff;border:2.5px solid #2563eb;
+  z-index:52;cursor:move;transform:translate(-50%,-50%);}
+.fig-ep.curve{border-color:#f59e0b;border-radius:3px;width:11px;height:11px;}
+.fig-ep:hover{background:#eff6ff;}
+
+/* ---------- 보기 모드: 미니 필 ---------- */
+.fig-pill{position:fixed;top:14px;right:14px;z-index:9990;display:flex;align-items:center;
+  background:rgba(255,255,255,.95);border:1px solid #dce0e7;border-radius:11px;
+  box-shadow:0 3px 14px rgba(15,23,42,.13);backdrop-filter:saturate(1.3) blur(6px);
+  font-family:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',sans-serif;}
+body.fig-editing .fig-pill{display:none;}
+.fig-pill .fp-edit{font-family:inherit;font-size:12.5px;font-weight:700;color:#1f2937;border:none;background:none;
+  padding:8px 13px;cursor:pointer;border-radius:10px 0 0 10px;}
+.fig-pill .fp-edit:hover{background:#eef2f7;}
+.fig-pill .fp-more{font-family:inherit;border:none;background:none;border-left:1px solid #e6e9ef;color:#6b7280;
+  padding:8px 11px;cursor:pointer;border-radius:0 10px 10px 0;font-size:14px;line-height:1;font-weight:800;}
+.fig-pill .fp-more:hover{background:#eef2f7;}
+.fig-menu{position:absolute;top:calc(100% + 6px);right:0;min-width:158px;background:#fff;
+  border:1px solid #e2e5ea;border-radius:11px;box-shadow:0 10px 30px rgba(15,23,42,.16);
+  padding:5px;display:none;}
+.fig-menu.open{display:block;}
+.fig-menu button{display:block;width:100%;text-align:left;font-family:inherit;font-size:12.5px;font-weight:600;
+  color:#374151;background:none;border:none;padding:8px 11px;border-radius:7px;cursor:pointer;}
+.fig-menu button:hover{background:#f1f4f8;}
+
+/* ---------- 편집 모드: 통합 도크 (도구 + 속성) ---------- */
+.fig-dock{position:fixed;top:14px;right:14px;bottom:auto;z-index:9990;width:250px;display:none;
+  max-height:calc(100vh - 28px);overflow-y:auto;overscroll-behavior:contain;
+  background:#1f2430;color:#e5e7eb;border-radius:14px;box-shadow:0 14px 40px rgba(10,14,22,.42);
+  font-family:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',sans-serif;font-size:12px;}
+body.fig-editing .fig-dock{display:block;}
+body.fig-editing{padding-right:278px;}          /* 도크와 본문 겹침 방지 */
+@media (max-width:980px){ body.fig-editing{padding-right:0;} }
+.fd-head{display:flex;align-items:center;gap:8px;padding:11px 12px;border-bottom:1px solid #2c3342;
+  position:sticky;top:0;background:#1f2430;z-index:2;border-radius:14px 14px 0 0;}
+.fd-head .dot{width:8px;height:8px;border-radius:50%;background:#4ade80;flex:0 0 auto;
+  box-shadow:0 0 0 3px rgba(74,222,128,.18);}
+.fd-head .t{font-weight:800;font-size:12.5px;letter-spacing:.3px;flex:1;}
+.fd-done{font-family:inherit;font-size:12px;font-weight:800;background:#2563eb;color:#fff;border:none;
+  border-radius:8px;padding:6px 13px;cursor:pointer;}
+.fd-done:hover{background:#1d4ed8;}
+.fd-sec{padding:10px 12px;border-bottom:1px solid #2c3342;}
+.fd-cap{font-size:10.5px;font-weight:800;letter-spacing:.8px;color:#8f9aab;margin:0 0 7px;}
+.fd-row{display:flex;gap:6px;}
+.fd-row + .fd-row{margin-top:6px;}
+.fd-b{flex:1;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;
+  border:1px solid #3a4254;background:#2b3140;color:#dfe3ea;padding:7px 8px;border-radius:8px;
+  display:inline-flex;align-items:center;justify-content:center;gap:5px;white-space:nowrap;}
+.fd-b:hover{background:#394153;}
+.fd-b.primary{background:#2563eb;border-color:#2563eb;color:#fff;}
+.fd-b.primary:hover{background:#1d4ed8;}
+.fd-b.sq{flex:0 0 40px;font-size:14px;}
+
+/* ---------- 속성 섹션 (도크 내부) ---------- */
+.fig-panel{padding:11px 12px 13px;}
+.fig-panel h4{margin:0 0 10px;font-size:12px;font-weight:800;letter-spacing:.4px;color:#93c5fd;display:flex;justify-content:space-between;align-items:center;}
+.fig-panel h4 .cnt{color:#6b7280;font-weight:600;}
+.fig-panel .fp-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:7px 0;}
+.fig-panel label{color:#9ca3af;font-weight:600;flex:0 0 auto;}
+.fig-panel input[type=color]{width:30px;height:22px;border:none;background:none;padding:0;cursor:pointer;flex:0 0 auto;}
+.fig-panel input[type=color]::-webkit-color-swatch-wrapper{padding:0;}
+.fig-panel input[type=color]::-webkit-color-swatch{border:1px solid #4b5563;border-radius:5px;}
+.fig-panel input[type=range]{flex:1;accent-color:#60a5fa;height:18px;}
+.fig-panel .val{width:34px;text-align:right;color:#d1d5db;font-weight:700;flex:0 0 auto;}
+.fig-panel select,.fig-panel input[type=text]{background:#2b3140;color:#e5e7eb;border:1px solid #3c4354;
+  border-radius:6px;font-family:inherit;font-size:12px;padding:3px 6px;min-width:0;}
+.fig-panel input[type=text]{flex:1;}
+.fig-panel .fp-btns{display:flex;flex-wrap:wrap;gap:5px;margin-top:9px;}
+
+/* 텍스트 서식 툴바 (html-doc 편집 기능 전체) */
+#fpText .ft-row{display:flex;gap:5px;align-items:center;margin:6px 0;}
+#fpText .ft-sel{flex:1;min-width:0;background:#2b3140;color:#e5e7eb;border:1px solid #3c4354;border-radius:6px;font-family:inherit;font-size:12px;padding:4px 6px;}
+#fpText .ft-sel option{color:#111;}
+#fpText .ft-b{flex:1;min-width:0;height:28px;border:1px solid #3a4254;background:#2b3140;color:#dfe3ea;border-radius:7px;cursor:pointer;font-family:inherit;font-size:13px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;padding:0;}
+#fpText .ft-b:hover{background:#394153;}
+#fpText .ft-b.on{background:#2563eb;border-color:#2563eb;color:#fff;}
+#fpText .ft-size .ft-b{flex:0 0 30px;}
+#fpText .ft-g5{flex-wrap:nowrap;}
+#fpText .ft-col{display:inline-flex;align-items:center;gap:5px;flex:1;background:#2b3140;border:1px solid #3c4354;border-radius:6px;padding:2px 6px;min-width:0;}
+#fpText .ft-col label{font-size:10.5px;color:#9ca3af;font-weight:700;flex:0 0 auto;}
+#fpText .ft-col input[type=color]{width:22px;height:20px;flex:0 0 auto;}
+#fpText .ft-mini{background:#394153;border:none;color:#cfd5db;border-radius:4px;height:20px;padding:0 6px;cursor:pointer;font-size:10.5px;font-family:inherit;}
+#fpText .ft-mini:hover{background:#454f61;}
+.fig-pb{font-family:inherit;font-size:11.5px;font-weight:700;cursor:pointer;border:1px solid #3c4354;
+  background:#2b3140;color:#d1d5db;padding:4px 9px;border-radius:7px;}
+.fig-pb:hover{background:#394153;}
+.fig-pb.warn{color:#fca5a5;border-color:#5b3a3a;}
+.fig-pb.tgl.on{background:#2563eb;border-color:#2563eb;color:#fff;}
+.fig-panel .fp-sep{height:1px;background:#343b4c;margin:10px -2px;}
+.fig-panel .fp-note{color:#6b7280;font-size:11px;line-height:1.5;margin-top:8px;}
+
+/* ---------- 토스트/배너/모달 (회의록 패턴) ---------- */
+.fig-toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,14px);z-index:9999;opacity:0;
+  background:#111827;color:#f9fafb;font-size:13px;font-weight:600;padding:9px 18px;border-radius:22px;
+  box-shadow:0 8px 24px rgba(10,14,22,.35);transition:.22s;pointer-events:none;
+  font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;}
+.fig-toast.show{opacity:1;transform:translate(-50%,0);}
+.fig-banner{position:fixed;left:50%;top:14px;transform:translateX(-50%);z-index:9995;display:none;gap:10px;align-items:center;
+  background:#fffbeb;border:1px solid #f2d9a4;color:#7c5a11;font-size:13px;padding:9px 14px;border-radius:11px;
+  box-shadow:0 6px 20px rgba(15,23,42,.14);font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;}
+.fig-banner.show{display:flex;}
+.fig-modal{position:fixed;inset:0;z-index:9998;display:none;background:rgba(15,23,42,.45);
+  font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;}
+.fig-modal.open{display:flex;align-items:center;justify-content:center;}
+.fig-modal .fm-card{width:min(880px,92vw);height:min(600px,86vh);background:#fff;border-radius:16px;
+  box-shadow:0 24px 70px rgba(10,14,22,.4);display:flex;flex-direction:column;overflow:hidden;}
+.fig-modal .fm-head{display:flex;align-items:center;justify-content:space-between;padding:13px 18px;border-bottom:1px solid #e5e7eb;}
+.fig-modal .fm-head b{font-size:15px;color:#111827;}
+.fig-modal .fm-body{flex:1;display:grid;grid-template-columns:230px 1fr;min-height:0;}
+.fig-modal .fm-list{border-right:1px solid #e5e7eb;overflow:auto;padding:10px;}
+.fig-hist-item{display:block;width:100%;text-align:left;background:#f9fafb;border:1px solid #e5e7eb;border-radius:9px;
+  padding:8px 10px;margin-bottom:7px;cursor:pointer;font-family:inherit;}
+.fig-hist-item:hover{background:#eff6ff;border-color:#bfdbfe;}
+.fig-hist-item strong{display:block;font-size:12.5px;color:#111827;}
+.fig-hist-item span{font-size:11px;color:#6b7280;}
+.fig-modal .fm-preview{overflow:auto;padding:14px;background:#f3f4f6;}
+.fig-modal .fm-preview .fm-doc{background:#fff;border-radius:10px;padding:10px;transform-origin:0 0;}
+.fig-modal .fm-actions{padding:0 0 10px;}
+
+/* ---------- 보기 모드 = 완전 정적 / 인쇄 ---------- */
+body:not(.fig-editing) .fig-h,body:not(.fig-editing) .fig-ep,body:not(.fig-editing) .fig-guide{display:none !important;}
+@media print{
+  .fig-pill,.fig-dock,.fig-toast,.fig-banner,.fig-modal{display:none !important;}
+}
