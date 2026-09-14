@@ -8,7 +8,11 @@ import sys, pathlib, subprocess, tempfile, html, re, shutil
 CHROMES = ['/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
            '/Applications/Chromium.app/Contents/MacOS/Chromium',
            '/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge',
-           'google-chrome', 'chromium', 'chromium-browser', 'chrome']
+           r'C:\Program Files\Google\Chrome\Application\chrome.exe',
+           r'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe',
+           r'C:\Program Files\Microsoft\Edge\Application\msedge.exe',
+           r'C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe',
+           'google-chrome', 'chromium', 'chromium-browser', 'chrome', 'msedge']
 HOOK = ('<script>(function(){var me=document.currentScript;window.addEventListener("load",function(){setTimeout(function(){'
         'if(me&&me.parentNode)me.parentNode.removeChild(me);'          # 훅 자신은 결과물에 남기지 않는다
         'var h=window.FigEditor.exportStatic();'
@@ -36,7 +40,8 @@ def main():
                '--user-data-dir=' + prof, '--virtual-time-budget=6000', '--window-size=1440,900',
                '--dump-dom', 'file://' + str(tmp.resolve())]
         # Chrome은 DOM을 한 번에 출력한 뒤 자식 프로세스 때문에 종료가 늦어지므로, </html>을 읽는 즉시 끝낸다
-        proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True)
+        proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL,
+                                 text=True, encoding='utf-8', errors='replace')
         import threading; killer = threading.Timer(45, proc.kill); killer.start()
         try:
             for line in proc.stdout:
