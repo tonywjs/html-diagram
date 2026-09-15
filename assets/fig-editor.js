@@ -1,5 +1,7 @@
 /* ================================================================
    fig-editor.js: 편집 가능한 HTML 도식 공용 엔진
+   Copyright (c) 2026 Jeon SukHwan (tonywjs). MIT License. https://github.com/tonywjs/html-diagram
+   이 주석은 엔진이 인라인된 모든 산출물에 함께 실린다(MIT의 저작권 표시 조건).
    규약: .fig-canvas[data-size="WxH"] > .fig-node(절대배치) + .fig-edge(데이터)
    - 보기 모드가 기본. 모든 편집은 편집 모드(⌘E)에서만 동작한다.
    - 저장: 같은 파일 덮어쓰기(File System Access API) + 히스토리 + 자동저장.
